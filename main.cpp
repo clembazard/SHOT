@@ -12,14 +12,18 @@
  */
 
 #include <cstdlib>
+#include <iostream>
 
 using namespace std;
 
+const string leftMove = "LEFT_MOVE";
+const string rightMove = "RIGHT_MOVE";
 /*
  * 
  */
 int main(int argc, char** argv) {
-
+    
+    cout << "Hello world" << endl;
     return 0;
 }
 
