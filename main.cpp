@@ -13,17 +13,21 @@
 
 #include <cstdlib>
 #include <iostream>
+#include "noeud.h"
 
 using namespace std;
 
 const string leftMove = "LEFT_MOVE";
 const string rightMove = "RIGHT_MOVE";
+
 /*
  * 
  */
 int main(int argc, char** argv) {
-    
-    cout << "Hello world" << endl;
+
+    // creation d'un arbre
+    noeud * arbre = new noeud();
+
     return 0;
 }
 

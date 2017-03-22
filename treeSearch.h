@@ -16,10 +16,22 @@
 
 class treeSearch {
 public:
+    int budget;
+
     treeSearch();
     treeSearch(const treeSearch& orig);
     virtual ~treeSearch();
+
+
+    void creerLaRacine();
+    void simuler();
+    void prendreLaDecision();
+
 private:
+    void descente();
+    void expansion();
+    void eval();
+    void backPropagation();
 
 };
 

@@ -14,14 +14,61 @@
 #ifndef NOEUD_H
 #define NOEUD_H
 
+
+#include <cstdlib>
+#include <string>
+#include <vector>
+#include <cmath>
+#include <iostream>
+
+
+#include "decision.h"
+
 class noeud {
 public:
-        // Methods
+    // Methods
     noeud();
     noeud(const noeud& orig);
-    virtual ~noeud();    
+    virtual ~noeud();
+
+    void simuler();
+    noeud *getMeilleurFils();
+    decision *getDecision();
+    void expension();
+    void evalutation();
+
+    // getter
+    int getCptPassage();
+    std::string getDecisionPere();
+    noeud *getPere();
+    std::vector<noeud> getFils();
+    float getMoyenne();
+
+    // setter
+    void setCptPassage(int cptPassage);
+    void setDecisionPere(std::string decision);
+    void setPere(noeud *pere);
+    void setFils(std::vector<noeud> fils);
+    void setMoyenne(float moyenne);
+
 private:
 
+    std::string LEFT_MOVE = "LEFT_MOVE";
+    std::string RIGHT_MOVE = "RIGHT_MOVE";
+
+    std::string decisionDuPere;
+
+    noeud *pere;
+
+    int cptPassage;
+
+    float moyenne;
+
+    std::vector<noeud> fils;
+
+    int randomInt(int min, int max);
+
+    std::string getRandomDecision();
 };
 
 #endif /* NOEUD_H */
