@@ -17,6 +17,23 @@ noeud::noeud() {
     this->moyenne = 0;
 }
 
+noeud::noeud(int nbSousNoeuds) {
+    this->moyenne = 0;
+    this->sousNoeudsRestant = nbSousNoeuds;
+    std::cout << "Créatoion du premier noeud" << std::endl;
+    this->fils.push_back(new noeud(this));
+}
+
+noeud::noeud(noeud *pere) {
+    this->sousNoeudsRestant = pere->sousNoeudsRestant;
+    std::cout << "Noeuds restants : " << this->sousNoeudsRestant << std::endl;
+    if (this->sousNoeudsRestant > 0) {
+        std::cout << "Création d'un sous noeud" << std::endl;
+        this->sousNoeudsRestant--;
+        this->fils.push_back(new noeud(this));
+    }
+}
+
 noeud::noeud(const noeud& orig) {
 }
 

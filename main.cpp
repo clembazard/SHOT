@@ -28,7 +28,8 @@ int main(int argc, char** argv) {
     int budget = 50;
     
     // creation d'un arbre
-    noeud * arbre = new noeud();
+    noeud * arbre = new noeud(1);
+//    cout << arbre << endl;
 
     return 0;
 }

@@ -26,8 +26,14 @@
 
 class noeud {
 public:
+    
+    int sousNoeudsRestant;
+    
+    
     // Methods
     noeud();
+    noeud(int nbSousNoeuds);
+    noeud(noeud* pere);
     noeud(const noeud& orig);
     virtual ~noeud();
 

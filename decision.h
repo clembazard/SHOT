@@ -16,25 +16,38 @@
 
 class decision {
 public:
-    decision();
+
+    int budget;
+
+    decision(int budget);
     decision(const decision& orig);
     virtual ~decision();
     
+    void jouer();
+
     // getter
     std::vector<std::string> getDecision();
     float getMoyenne();
-    
+
     //setter
     void setDecision(std::vector<std::string> decision);
     void setMoyenne(float moyenne);
 private:
+
+    std::string LEFT_MOVE = "LEFT_MOVE";
+    std::string RIGHT_MOVE = "RIGHT_MOVE";
+
 
     // must true for LEFT
     // end false for RIGHT
     std::vector<std::string> decisions;
     float moyenne;
     bool finish();
-    
+
+    int randomInt(int min, int max);
+
+    std::string getRandomDecision();
+
 };
 
 #endif /* DECISION_H */
