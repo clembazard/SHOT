@@ -25,6 +25,8 @@ const string rightMove = "RIGHT_MOVE";
  */
 int main(int argc, char** argv) {
 
+    int budget = 50;
+    
     // creation d'un arbre
     noeud * arbre = new noeud();
 
