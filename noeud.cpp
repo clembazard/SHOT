@@ -110,3 +110,15 @@ std::string noeud::getRandomDecision() {
     }
     return valueToReturn;
 }
+
+simuler() {
+    // descente 
+        // tq qu'on peut descendre (il n'y a plus de fils à créer, pas en fin de partie) prendre le plus prometteur
+    
+    // expansion
+        // crée un nouveau fils
+    
+    // rollout : je complète la partie aléatoirement, sans mémoriser, je récupère le "gain"
+    
+    // retropropagation : je m.a.j. l'info sur ce nouveau noeud et ses ancêtres
+}

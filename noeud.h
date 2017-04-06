@@ -70,7 +70,7 @@ private:
 
     float moyenne;
 
-    std::vector<noeud> fils;
+    std::vector<noeud *> fils;
 
     int randomInt(int min, int max);
 

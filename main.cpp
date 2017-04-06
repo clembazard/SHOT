@@ -25,12 +25,23 @@ const string rightMove = "RIGHT_MOVE";
  */
 int main(int argc, char** argv) {
 
-    int budget = 50;
+    const int budget = 50;
     
     // creation d'un arbre
     noeud * arbre = new noeud(1);
 //    cout << arbre << endl;
 
+    // tq pas en fin de partie
+    
+    //      échantilloner la prochaine cdécsion
+    for (int i = 0; i < budget i++) {
+        arbre->simuler();
+    }
+    //       quel est le meilleur choix à la racine? labranch avec plus de passages
+    
+    //       affectuer le meilleur choix : déplacer la racine "arbre"
+    
+    // fin tq 
     return 0;
 }
 
