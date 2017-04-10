@@ -45,14 +45,14 @@ public:
 
     // getter
     int getCptPassage();
-    std::string getDecisionPere();
+    int getDecisionPere();
     noeud *getPere();
     std::vector<noeud*> getFils();
     float getMoyenne();
 
     // setter
     void setCptPassage(int cptPassage);
-    void setDecisionPere(std::string decision);
+    void setDecisionPere(int decision);
     void setPere(noeud *pere);
     void setFils(std::vector<noeud*> fils);
     void setMoyenne(float moyenne);
@@ -62,7 +62,9 @@ private:
     std::string LEFT_MOVE = "LEFT_MOVE";
     std::string RIGHT_MOVE = "RIGHT_MOVE";
 
-    std::string decisionDuPere;
+    // 0 pour gauche
+    // 1 pour droite
+    int decisionDuPere;
 
     noeud *pere;
 
@@ -74,7 +76,7 @@ private:
 
     int randomInt(int min, int max);
 
-    std::string getRandomDecision();
+    int getRandomDecision();
 };
 
 #endif /* NOEUD_H */
