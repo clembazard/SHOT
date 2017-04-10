@@ -43,10 +43,10 @@ noeud::~noeud() {
 void noeud::expension() {
     // creation de deux nouveau noeuds
 
-    noeud noeudGauche;
-    noeudGauche.setDecisionPere(this->LEFT_MOVE);
-    noeud noeudDroite;
-    noeudDroite.setDecisionPere(this->RIGHT_MOVE);
+    noeud *noeudGauche = new noeud();
+    noeudGauche->setDecisionPere(this->LEFT_MOVE);
+    noeud *noeudDroite = new noeud();
+    noeudDroite->setDecisionPere(this->RIGHT_MOVE);
 
     this->fils.push_back(noeudDroite);
     this->fils.push_back(noeudGauche);
@@ -68,7 +68,7 @@ noeud *noeud::getPere() {
     return this->pere;
 }
 
-std::vector<noeud> noeud::getFils() {
+std::vector<noeud*> noeud::getFils() {
     return this->fils;
 }
 
@@ -88,7 +88,7 @@ void noeud::setPere(noeud* pere) {
     this->pere = pere;
 }
 
-void noeud::setFils(std::vector<noeud> fils) {
+void noeud::setFils(std::vector<noeud*> fils) {
     this ->fils = fils;
 }
 
@@ -111,14 +111,15 @@ std::string noeud::getRandomDecision() {
     return valueToReturn;
 }
 
-simuler() {
+void noeud::simuler() {
     // descente 
-        // tq qu'on peut descendre (il n'y a plus de fils à créer, pas en fin de partie) prendre le plus prometteur
-    
+
+    // tq qu'on peut descendre (il n'y a plus de fils à créer, pas en fin de partie) prendre le plus prometteur
+
     // expansion
-        // crée un nouveau fils
-    
+    // crée un nouveau fils
+
     // rollout : je complète la partie aléatoirement, sans mémoriser, je récupère le "gain"
-    
+
     // retropropagation : je m.a.j. l'info sur ce nouveau noeud et ses ancêtres
 }

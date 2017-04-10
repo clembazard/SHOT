@@ -47,14 +47,14 @@ public:
     int getCptPassage();
     std::string getDecisionPere();
     noeud *getPere();
-    std::vector<noeud> getFils();
+    std::vector<noeud*> getFils();
     float getMoyenne();
 
     // setter
     void setCptPassage(int cptPassage);
     void setDecisionPere(std::string decision);
     void setPere(noeud *pere);
-    void setFils(std::vector<noeud> fils);
+    void setFils(std::vector<noeud*> fils);
     void setMoyenne(float moyenne);
 
 private:
