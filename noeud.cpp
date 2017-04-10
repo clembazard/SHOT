@@ -15,8 +15,10 @@
 
 noeud::noeud() {
     this->moyenne = 0;
+    this->cptPassage = 0;
 }
 
+// useless
 noeud::noeud(int nbSousNoeuds) {
     this->moyenne = 0;
     this->sousNoeudsRestant = nbSousNoeuds;
@@ -24,6 +26,7 @@ noeud::noeud(int nbSousNoeuds) {
     this->fils.push_back(new noeud(this));
 }
 
+// useless
 noeud::noeud(noeud *pere) {
     this->sousNoeudsRestant = pere->sousNoeudsRestant;
     std::cout << "Noeuds restants : " << this->sousNoeudsRestant << std::endl;
@@ -44,9 +47,9 @@ void noeud::expension() {
     // creation de deux nouveau noeuds
 
     noeud *noeudGauche = new noeud();
-    noeudGauche->setDecisionPere(this->LEFT_MOVE);
+    noeudGauche->setDecisionPere(0);
     noeud *noeudDroite = new noeud();
-    noeudDroite->setDecisionPere(this->RIGHT_MOVE);
+    noeudDroite->setDecisionPere(1);
 
     this->fils.push_back(noeudDroite);
     this->fils.push_back(noeudGauche);
@@ -60,7 +63,7 @@ int noeud::getCptPassage() {
     return this->cptPassage;
 }
 
-std::string noeud::getDecisionPere() {
+int noeud::getDecisionPere() {
     return this->decisionDuPere;
 }
 
@@ -80,7 +83,7 @@ void noeud::setCptPassage(int cptPassage) {
     this->cptPassage = cptPassage;
 }
 
-void noeud::setDecisionPere(std::string decision) {
+void noeud::setDecisionPere(int decision) {
     this->decisionDuPere = decision;
 }
 
@@ -100,20 +103,14 @@ int noeud::randomInt(int min, int max) {
     return min + (rand() % (int) (max - min + 1));
 }
 
-std::string noeud::getRandomDecision() {
+int noeud::getRandomDecision() {
     int randomNumber = randomInt(0, 1);
-    std::string valueToReturn = "";
-    if (randomNumber == 0) {
-        valueToReturn = LEFT_MOVE;
-    } else {
-        valueToReturn = RIGHT_MOVE;
-    }
-    return valueToReturn;
+    return randomNumber;
 }
 
 void noeud::simuler() {
     // descente 
-
+    
     // tq qu'on peut descendre (il n'y a plus de fils à créer, pas en fin de partie) prendre le plus prometteur
 
     // expansion
