@@ -34,15 +34,29 @@ int main(int argc, char** argv) {
     // tq pas en fin de partie
     while (!finDePartie) {
 
+        int cptBrancheGauche = 0;
+        int cptBrancheDroite = 0;
+
         //      échantilloner la prochaine décision
         for (int i = 0; i < budget; i++) {
-            arbre->simuler();
+            cout << "simulation " << i << endl;
+            arbre->simuler(budget);
+
+            cptBrancheGauche += arbre->getFils()[0]->getCptPassage();
+            cptBrancheDroite += arbre->getFils()[1]->getCptPassage();
         }
-        //       quel est le meilleur choix à la racine? labranch avec plus de passages
-
+        
+        //       quel est le meilleur choix à la racine? la branche avec plus de passages
+        int meilleurChoix;
+        if (cptBrancheGauche > cptBrancheDroite) {
+            meilleurChoix = 0;
+        } else {
+            meilleurChoix = 1;
+        }
+        
         //       affectuer le meilleur choix : déplacer la racine "arbre"
-
-        // fin tq 
+        arbre->getFils()[1 - meilleurChoix]->~noeud(); // on supprime ce qui ne nous sert plus
+        arbre = arbre->getFils()[meilleurChoix]; // déplace la racine de l'arbre.
     }
     return 0;
 }

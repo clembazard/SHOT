@@ -32,16 +32,16 @@ public:
     
     // Methods
     noeud();
-    noeud(int nbSousNoeuds);
-    noeud(noeud* pere);
     noeud(const noeud& orig);
     virtual ~noeud();
 
-    void simuler();
+    void simuler(int budget);
     noeud *getMeilleurFils();
     decision *getDecision();
     void expension();
     void evalutation();
+    void calculMoyenne();
+    void retropopagation(noeud *branche);
 
     // getter
     int getCptPassage();
@@ -77,6 +77,10 @@ private:
     int randomInt(int min, int max);
 
     int getRandomDecision();
+    
+    int budget;
+    
+    bool peutContinuerAGagnerDesPoints;
 };
 
 #endif /* NOEUD_H */

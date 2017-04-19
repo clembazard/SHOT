@@ -16,25 +16,7 @@
 noeud::noeud() {
     this->moyenne = 0;
     this->cptPassage = 0;
-}
-
-// useless
-noeud::noeud(int nbSousNoeuds) {
-    this->moyenne = 0;
-    this->sousNoeudsRestant = nbSousNoeuds;
-    std::cout << "Créatoion du premier noeud" << std::endl;
-    this->fils.push_back(new noeud(this));
-}
-
-// useless
-noeud::noeud(noeud *pere) {
-    this->sousNoeudsRestant = pere->sousNoeudsRestant;
-    std::cout << "Noeuds restants : " << this->sousNoeudsRestant << std::endl;
-    if (this->sousNoeudsRestant > 0) {
-        std::cout << "Création d'un sous noeud" << std::endl;
-        this->sousNoeudsRestant--;
-        this->fils.push_back(new noeud(this));
-    }
+    this->peutContinuerAGagnerDesPoints = true;
 }
 
 noeud::noeud(const noeud& orig) {
@@ -108,15 +90,57 @@ int noeud::getRandomDecision() {
     return randomNumber;
 }
 
-void noeud::simuler() {
+void noeud::simuler(int budget) {
+
+
+    //    this->cptPassage++;
     // descente 
-    
+    this->expension();
+    int decision = this->getRandomDecision();
+    noeud *filsChoisi = this->fils[decision];
+    filsChoisi->setDecisionPere(decision);
+    filsChoisi->setPere(this);
+    filsChoisi->calculMoyenne();
+
+
     // tq qu'on peut descendre (il n'y a plus de fils à créer, pas en fin de partie) prendre le plus prometteur
+    while (budget > 0) {
+//        std::cout << "budget : " << budget << std::endl;
 
-    // expansion
-    // crée un nouveau fils
+        // expansion
+        filsChoisi->cptPassage++;
+        filsChoisi->expension();
 
-    // rollout : je complète la partie aléatoirement, sans mémoriser, je récupère le "gain"
+        // crée un nouveau fils
+        int randomDecision = getRandomDecision();
+        noeud *filsChoisiDuFilsChoisi = filsChoisi->fils[randomDecision];
+        filsChoisiDuFilsChoisi->cptPassage++;
+        filsChoisiDuFilsChoisi->setDecisionPere(randomDecision);
+        filsChoisiDuFilsChoisi->setPere(filsChoisi);
+        filsChoisiDuFilsChoisi->calculMoyenne();
 
+        filsChoisi = filsChoisiDuFilsChoisi;
+
+
+        // rollout : je complète la partie aléatoirement, sans mémoriser, je récupère le "gain"
+        budget--;
+    }
     // retropropagation : je m.a.j. l'info sur ce nouveau noeud et ses ancêtres
+    this->moyenne = filsChoisi->getMoyenne();
+    std::cout << "Rétropropagation " << this->moyenne << std::endl;
+}
+
+void noeud::calculMoyenne() {
+    if (this->decisionDuPere == 1 || this->pere->peutContinuerAGagnerDesPoints == false) {
+        this->moyenne = this->pere->moyenne;
+    } else {
+        this->moyenne = this->pere->moyenne + 1;
+    }
+}
+
+void noeud::retropopagation(noeud *branche) {
+    if (branche->pere != NULL) {
+        branche->pere->setMoyenne(this->moyenne);
+        retropopagation(this->pere);
+    }
 }
