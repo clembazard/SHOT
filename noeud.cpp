@@ -1,4 +1,4 @@
-/*
+/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -25,21 +25,22 @@ noeud::noeud(const noeud& orig) {
 noeud::~noeud() {
 }
 
-noeud * noeud::expension(cheminsim) {
-    // TODO: Si pas de fils, ajouter fils gauche
+noeud * noeud::expension(std::vector<int> cheminSim) {
+    // Si pas de fils, ajouter fils gauche
     // sinon ajouter fils droit
     // ET retourner le noeud fils créé
-    
-    
-    // creation de deux nouveau noeuds
 
-    noeud *noeudGauche = new noeud();
-    noeudGauche->setDecisionPere(0);
-    noeud *noeudDroite = new noeud();
-    noeudDroite->setDecisionPere(1);
-
-    this->fils.push_back(noeudDroite);
-    this->fils.push_back(noeudGauche);
+    if (this->getFils().size() == 0) {
+        noeud *noeudGauche = new noeud();
+        noeudGauche->setDecisionPere(0);
+        this->fils.push_back(noeudGauche);
+        return noeudGauche;
+    } else {
+        noeud *noeudDroite = new noeud();
+        noeudDroite->setDecisionPere(1);
+        this->fils.push_back(noeudDroite);
+        return noeudDroite;
+    }
 }
 
 void noeud::evalutation() {
@@ -99,39 +100,49 @@ int noeud::getRandomDecision() {
     return randomNumber;
 }
 
-noeud * noeud::descente(cheminsim) {
+noeud * noeud::descente(std::vector<int> cheminSim) {
+
     // TODO: arréter si prof max retourner ce noeud feuille 
     if (this->fils.size() < 2) // noeud pas complètement développé
         return this;
-    // decendre sur fils le +prometteur
-    if (this->fils[0].moyenne >this->...) {// ajouter de l'aléa
-        return this->fils[0].descente();
-        m.a.j.cheminsim
+
+    // descendre sur fils le +prometteur
+    // ajouter de l'aléa
+    if (this->fils[0].moyenne >this->this->fils[1]->moyenne) {
+        return this->fils[0].descente(cheminSim);
+        // m.a.j.cheminSim ????
+    } else {
+        return this->fils[1]->descente(cheminSim);
     }
     //TODO ....
 }
 
-void noeud::simuler(int budget, string chemin) {
 
-   // copie chemin
-    cheminsim = chemin;
- 
-    //    this->cptPassage++;
+// Remonte le score sur les noeuds père
+int noeud::rollout(std::vector<int> cheminSim) { 
+    
+}
+
+void noeud::simuler(int budget, std::vector<int> chemin) {
+
+    // copie chemin
+    std::vector<int> cheminSim = chemin;
+
     // descente 
-    noeud *n = descente(cheminsim);
-    
-    // TODO si pas déjà en fin de partie (prof lax) alors n est à étendre
+    noeud *n = descente(cheminSim);
+
+    // TODO si pas déjà en fin de partie (profMax) alors n est à étendre
     if () {
-        n = n->expension(cheminsim);
-        n->rollout(cheminsim) // terminer la partie aléatoirement, score de n = résultat de cette partie
+        n = n->expension(cheminSim);
+        n->rollout(cheminSim) // terminer la partie aléatoirement, score de n = résultat de cette partie
     }
-    
-    //prise en compte du score
-    n->backprop(score(cheminsim));
-    
+
+    // Prise en compte du score
+    n->retropropagation(calculMoyenne(cheminSim));
+
     // FIN
-    
-    
+
+
     int decision = this->getRandomDecision();
     noeud *filsChoisi = this->fils[decision];
     filsChoisi->setDecisionPere(decision);
@@ -141,7 +152,7 @@ void noeud::simuler(int budget, string chemin) {
 
     // tq qu'on peut descendre (il n'y a plus de fils à créer, pas en fin de partie) prendre le plus prometteur
     while (budget > 0) {
-//        std::cout << "budget : " << budget << std::endl;
+        //std::cout << "budget : " << budget << std::endl;
 
         // expansion
         filsChoisi->cptPassage++;
@@ -166,6 +177,7 @@ void noeud::simuler(int budget, string chemin) {
     std::cout << "Rétropropagation " << this->moyenne << std::endl;
 }
 
+// Calcul du score 
 void noeud::calculMoyenne() {
     if (this->decisionDuPere == 1 || this->pere->peutContinuerAGagnerDesPoints == false) {
         this->moyenne = this->pere->moyenne;
@@ -174,23 +186,16 @@ void noeud::calculMoyenne() {
     }
 }
 
-void noeud::retropopagation(noeud *branche) {
-    if (branche->pere != NULL) {
-        branche->pere->setMoyenne(this->moyenne);
-        retropopagation(this->pere);
-    }
-}
-
-void noeud::retropopagation(lescore) {
-    if (cptpassages==0) // nouveau noeud feuille
-        this->setmoyenne(lescore);
+void noeud::retropropagation(int lescore) {
+    if (this->getCptPassage() == 0) // nouveau noeud feuille
+        this->setMoyenne(lescore);
     else // sur un ancetre de la feuille
         // regarder wikipedia moyenne cumulative
-      ;  
+        ;
     // incrementer cptpassages
-    
+
     // si il y a un pere alors this->pere->retropropagation(score)
-    
+
     //this->pere->setMoyenne(this->moyenne);
     //this->retropopagation(this->pere);
 }

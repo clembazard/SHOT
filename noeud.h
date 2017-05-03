@@ -1,4 +1,4 @@
-/*
+/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -26,35 +26,38 @@
 
 class noeud {
 public:
-    
+
     int sousNoeudsRestant;
-    
-    
+
+
     // Methods
     noeud();
     noeud(const noeud& orig);
     virtual ~noeud();
 
-    void simuler(int budget);
+    void simuler(int budget, std::vector<int> chemin);
     noeud *getMeilleurFils();
     decision *getDecision();
-    void expension();
+    void expension(std::vector<int> cheminSim);
     void evalutation();
     void calculMoyenne();
-    void retropopagation(noeud *branche);
+    void retropropagation(noeud *branche);
     void ajouterDecision(int d);
+    noeud * descente(std::vector<int> cheminSim);
+    int noeud::rollout(std::vector<int> cheminSim);
+
 
     // getter
     int getCptPassage();
     int getDecisionPere();
-    noeud *getPere();
+    noeud * getPere();
     std::vector<noeud*> getFils();
     float getMoyenne();
 
     // setter
     void setCptPassage(int cptPassage);
     void setDecisionPere(int decision);
-    void setPere(noeud *pere);
+    void setPere(noeud * pere);
     void setFils(std::vector<noeud*> fils);
     void setMoyenne(float moyenne);
 
@@ -75,11 +78,11 @@ private:
     int randomInt(int min, int max);
 
     int getRandomDecision();
-    
+
     int budget;
-    
+
     bool peutContinuerAGagnerDesPoints;
-    
+
     std::vector<int> tableauDecisions;
 };
 
