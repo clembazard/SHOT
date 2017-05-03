@@ -37,8 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/decision.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/noeud.o \
-	${OBJECTDIR}/treeSearch.o
+	${OBJECTDIR}/noeud.o
 
 
 # C Compiler Flags
@@ -79,11 +78,6 @@ ${OBJECTDIR}/noeud.o: noeud.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/noeud.o noeud.cpp
-
-${OBJECTDIR}/treeSearch.o: treeSearch.cpp
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/treeSearch.o treeSearch.cpp
 
 # Subprojects
 .build-subprojects:

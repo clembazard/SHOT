@@ -25,7 +25,12 @@ noeud::noeud(const noeud& orig) {
 noeud::~noeud() {
 }
 
-void noeud::expension() {
+noeud * noeud::expension(cheminsim) {
+    // TODO: Si pas de fils, ajouter fils gauche
+    // sinon ajouter fils droit
+    // ET retourner le noeud fils créé
+    
+    
     // creation de deux nouveau noeuds
 
     noeud *noeudGauche = new noeud();
@@ -81,6 +86,10 @@ void noeud::setMoyenne(float moyenne) {
     this->moyenne = moyenne;
 }
 
+void noeud::ajouterDecision(int d) {
+    this->tableauDecisions.push_back(d);
+}
+
 int noeud::randomInt(int min, int max) {
     return min + (rand() % (int) (max - min + 1));
 }
@@ -90,12 +99,39 @@ int noeud::getRandomDecision() {
     return randomNumber;
 }
 
-void noeud::simuler(int budget) {
+noeud * noeud::descente(cheminsim) {
+    // TODO: arréter si prof max retourner ce noeud feuille 
+    if (this->fils.size() < 2) // noeud pas complètement développé
+        return this;
+    // decendre sur fils le +prometteur
+    if (this->fils[0].moyenne >this->...) {// ajouter de l'aléa
+        return this->fils[0].descente();
+        m.a.j.cheminsim
+    }
+    //TODO ....
+}
 
+void noeud::simuler(int budget, string chemin) {
 
+   // copie chemin
+    cheminsim = chemin;
+ 
     //    this->cptPassage++;
     // descente 
-    this->expension();
+    noeud *n = descente(cheminsim);
+    
+    // TODO si pas déjà en fin de partie (prof lax) alors n est à étendre
+    if () {
+        n = n->expension(cheminsim);
+        n->rollout(cheminsim) // terminer la partie aléatoirement, score de n = résultat de cette partie
+    }
+    
+    //prise en compte du score
+    n->backprop(score(cheminsim));
+    
+    // FIN
+    
+    
     int decision = this->getRandomDecision();
     noeud *filsChoisi = this->fils[decision];
     filsChoisi->setDecisionPere(decision);
@@ -143,4 +179,18 @@ void noeud::retropopagation(noeud *branche) {
         branche->pere->setMoyenne(this->moyenne);
         retropopagation(this->pere);
     }
+}
+
+void noeud::retropopagation(lescore) {
+    if (cptpassages==0) // nouveau noeud feuille
+        this->setmoyenne(lescore);
+    else // sur un ancetre de la feuille
+        // regarder wikipedia moyenne cumulative
+      ;  
+    // incrementer cptpassages
+    
+    // si il y a un pere alors this->pere->retropropagation(score)
+    
+    //this->pere->setMoyenne(this->moyenne);
+    //this->retropopagation(this->pere);
 }

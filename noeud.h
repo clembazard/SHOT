@@ -42,6 +42,7 @@ public:
     void evalutation();
     void calculMoyenne();
     void retropopagation(noeud *branche);
+    void ajouterDecision(int d);
 
     // getter
     int getCptPassage();
@@ -58,9 +59,6 @@ public:
     void setMoyenne(float moyenne);
 
 private:
-
-    std::string LEFT_MOVE = "LEFT_MOVE";
-    std::string RIGHT_MOVE = "RIGHT_MOVE";
 
     // 0 pour gauche
     // 1 pour droite
@@ -81,6 +79,8 @@ private:
     int budget;
     
     bool peutContinuerAGagnerDesPoints;
+    
+    std::vector<int> tableauDecisions;
 };
 
 #endif /* NOEUD_H */

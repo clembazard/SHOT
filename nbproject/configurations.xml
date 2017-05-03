@@ -6,7 +6,6 @@
                    projectFiles="true">
       <itemPath>decision.h</itemPath>
       <itemPath>noeud.h</itemPath>
-      <itemPath>treeSearch.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -18,7 +17,6 @@
       <itemPath>decision.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>noeud.cpp</itemPath>
-      <itemPath>treeSearch.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -55,10 +53,6 @@
       </item>
       <item path="noeud.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="treeSearch.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="treeSearch.h" ex="false" tool="3" flavor2="0">
-      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
@@ -89,10 +83,6 @@
       <item path="noeud.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="noeud.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="treeSearch.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="treeSearch.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
