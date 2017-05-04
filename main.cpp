@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "noeud.h"
+#include "Constantes.h"
 
 using namespace std;
 
@@ -21,25 +22,25 @@ using namespace std;
  * 
  */
 
-const int budget = 50;
-const int profondeurMax = 32;
+
 
 int main(int argc, char** argv) {
     bool finDePartie = false;
 
-    std::vector<int> chemin();
+    std::vector<int> chemin;
 
     // tq pas en fin de partie
-    while (!finDePartie) { // chemin.size < 32 !!!
+    while (chemin.size() < Constantes::profondeurMax) { // chemin.size < 32 !!!               
+        
         // décider un coup IA
-
+        
         // creation d'un arbre
         noeud * arbre = new noeud();
 
         //      échantilloner la prochaine décision
-        for (int i = 0; i < budget; i++) {
+        for (int i = 0; i < Constantes::budget; i++) {
             cout << "simulation " << i << endl;
-            arbre->simuler(budget, chemin);
+            arbre->simuler(Constantes::budget, chemin);
 
         }
 
@@ -59,6 +60,8 @@ int main(int argc, char** argv) {
         // appliquer le meilleur choix
         // chemin + (choix) ? "g" : "d";
 
+        chemin.push_back(meilleurChoix);
+
         //       affectuer le meilleur choix : déplacer la racine "arbre"
         //arbre->getFils()[1 - meilleurChoix]->~noeud(); // on supprime ce qui ne nous sert plus
         //arbre = arbre->getFils()[meilleurChoix]; // déplace la racine de l'arbre.
@@ -66,6 +69,8 @@ int main(int argc, char** argv) {
     }
 
     // afficher le score réel
+    noeud noeudDeCalcul;
+    cout << "score du jeu : " << noeudDeCalcul.calculScore(chemin) << endl;
 
     return 0;
 }
