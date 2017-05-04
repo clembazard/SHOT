@@ -38,13 +38,13 @@ public:
     void simuler(int budget, std::vector<int> chemin);
     noeud *getMeilleurFils();
     decision *getDecision();
-    void expension(std::vector<int> cheminSim);
+    noeud * expension(std::vector<int> cheminSim);
     void evalutation();
     void calculMoyenne();
-    void retropropagation(noeud *branche);
-    void ajouterDecision(int d);
+    void retropropagation(int leScore);
     noeud * descente(std::vector<int> cheminSim);
-    int noeud::rollout(std::vector<int> cheminSim);
+    int rollout(std::vector<int> cheminSim);
+    float calculScore(std::vector<int> chemin);
 
 
     // getter
@@ -79,11 +79,7 @@ private:
 
     int getRandomDecision();
 
-    int budget;
-
     bool peutContinuerAGagnerDesPoints;
-
-    std::vector<int> tableauDecisions;
 };
 
 #endif /* NOEUD_H */
