@@ -34,7 +34,7 @@ noeud::noeud(const noeud& orig) {
 noeud::~noeud() {
 }
 
-noeud * noeud::expension(std::vector<int> cheminSim) {
+noeud * noeud::expension(/*std::vector<int> cheminSim*/) {
     // Si pas de fils, ajouter fils gauche
     // sinon ajouter fils droit
     // ET retourner le noeud fils créé
@@ -57,10 +57,6 @@ noeud * noeud::expension(std::vector<int> cheminSim) {
         std::cout << "Branche droite créée" << std::endl;
         return noeudDroite;
     }
-}
-
-void noeud::evalutation() {
-    noeud::moyenne + 1;
 }
 
 int noeud::getCptPassage() {
@@ -112,23 +108,41 @@ int noeud::getRandomDecision() {
     return randomNumber;
 }
 
-noeud * noeud::descente(std::vector<int> cheminSim) {
+noeud * noeud::descente(std::vector<int> *cheminSim) {
+
+    // incrémente le compteur de passage du noeud en question
+    this->cptPassage++;
 
     // arréter si prof max retourner ce noeud feuille 
-    if (this->fils.size() < 2 || cheminSim.size() == Constantes::profondeurMax) { // noeud pas complètement développé
+
+
+    if (this->fils.size() < 2 || cheminSim->size() == Constantes::profondeurMax) { // noeud pas complètement développé
         return this;
     } else {
         // descendre sur fils le +prometteur
         // todo : ajouter de l'aléa
-        if (this->fils[0]->getMoyenne() > this->fils[1]->getMoyenne()) {
-            // m.a.j.cheminSim 
-            cheminSim.push_back(0);
-            std::cout << "descente à gauche " << std::endl;
-            return this->fils[0]->descente(cheminSim);
+
+        std::cout << "Moyenne de gauche :" << this->fils[0]->getMoyenne() << "; moyenne de droite :" << this->fils[1]->getMoyenne() << std::endl;
+
+        if (this->fils[0]->getMoyenne() == this->fils[1]->getMoyenne()) {
+            std::cout << "égalilté" << std::endl;
+            // égalité => un lancé de dès va nous aider !
+            int decisionRandom = getRandomDecision();
+            std::cout << "Décision prise : " << decisionRandom << std::endl;
+            cheminSim->push_back(decisionRandom);
+            return this->fils[decisionRandom];
         } else {
-            cheminSim.push_back(1);
-            std::cout << "descente à droite" << std::endl;
-            return this->fils[1]->descente(cheminSim);
+
+            if (this->fils[0]->getMoyenne() > this->fils[1]->getMoyenne()) {
+                // m.a.j.cheminSim 
+                cheminSim->push_back(0);
+                std::cout << "descente à gauche " << std::endl;
+                return this->fils[0]->descente(cheminSim);
+            } else {
+                cheminSim->push_back(1);
+                std::cout << "descente à droite" << std::endl;
+                return this->fils[1]->descente(cheminSim);
+            }
         }
     }
 }
@@ -137,85 +151,70 @@ noeud * noeud::descente(std::vector<int> cheminSim) {
 
 // Remonte le score sur les noeuds père
 
-int noeud::rollout(std::vector<int> cheminSim) {
-    std::cout << "ROLLOUT" << std::endl;
-    //    std::vector<int> simulation = cheminSim;
-    //    while (simulation.size() < Constantes::profondeurMax) {
-    //        simulation.push_back(this->getRandomDecision());
-    //    }
-    //    return 0;
+std::vector<int> *noeud::rollout(std::vector<int> *cheminSim) {
+    //    std::cout << "ROLLOUT" << std::endl;
+    while (cheminSim->size() < Constantes::profondeurMax) {
+        cheminSim->push_back(this->getRandomDecision());
+    }
+    return cheminSim;
 }
 
-void noeud::simuler(int budget, std::vector<int> chemin) {
+void noeud::simuler(int budget, std::vector<int> *chemin) {
+
+
+    /*fixme : c'est bien ce qu'il me semblait, vu que c'est pas un pointeur,
+     * une variable locale est recréée pour dans chaque fonction, et donc les 
+     * modification apportés ne sont pas prises en comptes.
+     * 
+     * Du coup, le rollout fait tout absolument en random et ne tiens pas compte
+     * des décision déjà prise par la descente
+     */
 
     // copie chemin
-    std::vector<int> cheminSim = chemin;
+    std::cout << "chemin : ";
+    afficherVector(chemin);
+    std::cout << std::endl;
+    std::vector<int> *cheminSim = clonerVector(chemin);
+    std::cout << "cheminSim : ";
+    afficherVector(cheminSim);
+    std::cout << std::endl;
 
     // descente 
     noeud *n = this->descente(cheminSim);
 
     // si pas déjà en fin de partie (profMax) alors n est à étendre
-    if (chemin.size() < Constantes::profondeurMax) {
-        n = n->expension(cheminSim);
-        n->rollout(cheminSim); // terminer la partie aléatoirement, score de n = résultat de cette partie
+    if (chemin->size() < Constantes::profondeurMax) {
+        n = n->expension(/*cheminSim*/);
+        cheminSim = n->rollout(cheminSim); // terminer la partie aléatoirement, score de n = résultat de cette partie
     }
 
     // Prise en compte du score
-    //n->retropropagation(calculMoyenne(cheminSim));
     n->retropropagation(calculScore(cheminSim));
 
     // FIN
-
-    //
-    //    int decision = this->getRandomDecision();
-    //    noeud *filsChoisi = this->fils[decision];
-    //    filsChoisi->setDecisionPere(decision);
-    //    filsChoisi->setPere(this);
-    //    filsChoisi->calculMoyenne();
-    //
-    //
-    //    // tq qu'on peut descendre (il n'y a plus de fils à créer, pas en fin de partie) prendre le plus prometteur
-    //    while (budget > 0) {
-    //        //std::cout << "budget : " << budget << std::endl;
-    //
-    //        // expansion
-    //        filsChoisi->cptPassage++;
-    //        // **** filsChoisi->expension();
-    //
-    //        // crée un nouveau fils
-    //        int randomDecision = getRandomDecision();
-    //        noeud *filsChoisiDuFilsChoisi = filsChoisi->fils[randomDecision];
-    //        filsChoisiDuFilsChoisi->cptPassage++;
-    //        filsChoisiDuFilsChoisi->setDecisionPere(randomDecision);
-    //        filsChoisiDuFilsChoisi->setPere(filsChoisi);
-    //        filsChoisiDuFilsChoisi->calculMoyenne();
-    //
-    //        filsChoisi = filsChoisiDuFilsChoisi;
-    //
-    //
-    //        // rollout : je complète la partie aléatoirement, sans mémoriser, je récupère le "gain"
-    //        budget--;
-    //    }
-    //    // retropropagation : je m.a.j. l'info sur ce nouveau noeud et ses ancêtres
-    //    this->moyenne = filsChoisi->getMoyenne();
-    //    std::cout << "Rétropropagation " << this->moyenne << std::endl;
 }
 
 // Calcul du score 
 
 void noeud::calculMoyenne() {
+
     if (this->decisionDuPere == 1 || this->pere->peutContinuerAGagnerDesPoints == false) {
+
+        std::cout << "calculM if" << std::endl;
+        std::cout << this->pere->moyenne << std::endl;
         this->moyenne = this->pere->moyenne;
     } else {
+        std::cout << "calculM else" << std::endl;
+        std::cout << this->pere->moyenne << std::endl;
         this->moyenne = this->pere->moyenne + 1;
     }
 }
 
-float noeud::calculScore(std::vector<int> chemin) {
+int noeud::calculScore(std::vector<int> *chemin) {
     bool winning = true;
     float score = 0;
-    for (int i = 0; i < chemin.size(); i++) {
-        if (chemin[i] == 0) {
+    for (int i = 0; i < chemin->size(); i++) {
+        if ((*chemin)[i] == 0) {
             if (winning) {
                 score++;
             }
@@ -223,10 +222,14 @@ float noeud::calculScore(std::vector<int> chemin) {
             winning = false;
         }
     }
+
+    std::cout << "Calcul score :" << score << std::endl;
+
     return score;
 }
 
 void noeud::retropropagation(int leScore) {
+    // fixme 
     if (this->getCptPassage() == 0) // nouveau noeud feuille
         this->setMoyenne(leScore);
     else {
@@ -237,7 +240,7 @@ void noeud::retropropagation(int leScore) {
     // regarder wikipedia moyenne cumulative
 
     // incrementer cptpassages
-    this->cptPassage++;
+    //    this->cptPassage++;
     // si il y a un pere alors this->pere->retropropagation(score)
     if (this->pere != nullptr) {
         this->pere->retropropagation(this->getMoyenne());
@@ -245,4 +248,22 @@ void noeud::retropropagation(int leScore) {
 
     //this->pere->setMoyenne(this->moyenne);
     //this->retropopagation(this->pere);
+}
+
+std::vector<int> * noeud::clonerVector(std::vector<int> *chemin) {
+    std::vector<int> *v = new std::vector<int>;
+    for (int i = 0; i < chemin->size(); i++) {
+        int value = (*chemin)[i];
+        v->push_back(value);
+
+    }
+    return v;
+
+}
+
+void noeud::afficherVector(std::vector<int> *chemin) {
+    for (int i = 0; i < chemin->size(); i++) {
+        std::cout << (*chemin)[i] << " ; ";
+    }
+    std::cout << std::endl;
 }

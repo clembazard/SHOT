@@ -25,15 +25,19 @@ using namespace std;
 
 
 int main(int argc, char** argv) {
+    
+    // Initialisation de la graine aléatoire
+    //srand(time(NULL));
+    
     bool finDePartie = false;
 
-    std::vector<int> chemin;
+    vector<int> *chemin = new vector<int>;
 
     // tq pas en fin de partie
-    while (chemin.size() < Constantes::profondeurMax) { // chemin.size < 32 !!!               
-        
+    while (chemin->size() < Constantes::profondeurMax) { // chemin.size < 32 !!!               
+
         // décider un coup IA
-        
+
         // creation d'un arbre
         noeud * arbre = new noeud();
 
@@ -60,11 +64,18 @@ int main(int argc, char** argv) {
         // appliquer le meilleur choix
         // chemin + (choix) ? "g" : "d";
 
-        chemin.push_back(meilleurChoix);
+        chemin->push_back(meilleurChoix);
 
         //       affectuer le meilleur choix : déplacer la racine "arbre"
         //arbre->getFils()[1 - meilleurChoix]->~noeud(); // on supprime ce qui ne nous sert plus
         //arbre = arbre->getFils()[meilleurChoix]; // déplace la racine de l'arbre.
+
+        cout << "chemin [";
+        for (int i = 0; i < chemin->size(); i++) {
+            cout << (*chemin)[i] << ",";
+        }
+        cout << "]" << endl;
+
         delete arbre;
     }
 
