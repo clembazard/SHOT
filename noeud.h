@@ -35,16 +35,15 @@ public:
     noeud(const noeud& orig);
     virtual ~noeud();
 
-    void simuler(int budget, std::vector<int> chemin);
+    void simuler(int budget, std::vector<int> *chemin);
     noeud *getMeilleurFils();
     decision *getDecision();
-    void expension(std::vector<int> cheminSim);
-    void evalutation();
+    noeud * expension(/*std::vector<int> cheminSim*/);
     void calculMoyenne();
-    void retropropagation(noeud *branche);
-    void ajouterDecision(int d);
-    noeud * descente(std::vector<int> cheminSim);
-    int noeud::rollout(std::vector<int> cheminSim);
+    void retropropagation(int leScore);
+    noeud * descente(std::vector<int> *cheminSim);
+    std::vector<int> *rollout(std::vector<int> *cheminSim);
+    int calculScore(std::vector<int> *chemin);
 
 
     // getter
@@ -63,6 +62,11 @@ public:
 
 private:
 
+    std::vector<int> *clonerVector(std::vector<int> *chemin);    
+    void afficherVector(std::vector<int> *chemin);
+
+
+
     // 0 pour gauche
     // 1 pour droite
     int decisionDuPere;
@@ -79,11 +83,7 @@ private:
 
     int getRandomDecision();
 
-    int budget;
-
     bool peutContinuerAGagnerDesPoints;
-
-    std::vector<int> tableauDecisions;
 };
 
 #endif /* NOEUD_H */
