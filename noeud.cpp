@@ -34,7 +34,7 @@ noeud::noeud(const noeud& orig) {
 noeud::~noeud() {
 }
 
-noeud * noeud::expension(/*std::vector<int> cheminSim*/) {
+noeud * noeud::expension(std::vector<int> *cheminSim) {
     // Si pas de fils, ajouter fils gauche
     // sinon ajouter fils droit
     // ET retourner le noeud fils créé
@@ -43,18 +43,20 @@ noeud * noeud::expension(/*std::vector<int> cheminSim*/) {
         noeud *noeudGauche = new noeud();
         noeudGauche->setDecisionPere(0);
         noeudGauche->setPere(this);
-        noeudGauche->calculMoyenne();
+        //        noeudGauche->calculMoyenne();
         this->fils.push_back(noeudGauche);
-        std::cout << "Branche gauche créée" << std::endl;
+        cheminSim->push_back(0);
+        //        std::cout << "Branche gauche créée" << std::endl;
         return noeudGauche;
     } else {
         noeud *noeudDroite = new noeud();
         noeudDroite->setDecisionPere(1);
         noeudDroite->peutContinuerAGagnerDesPoints = false;
         noeudDroite->setPere(this);
-        noeudDroite->calculMoyenne();
+        //        noeudDroite->calculMoyenne();
         this->fils.push_back(noeudDroite);
-        std::cout << "Branche droite créée" << std::endl;
+        cheminSim->push_back(1);
+        //        std::cout << "Branche droite créée" << std::endl;
         return noeudDroite;
     }
 }
@@ -122,25 +124,25 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
         // descendre sur fils le +prometteur
         // todo : ajouter de l'aléa
 
-        std::cout << "Moyenne de gauche :" << this->fils[0]->getMoyenne() << "; moyenne de droite :" << this->fils[1]->getMoyenne() << std::endl;
+        //        std::cout << "Moyenne de gauche :" << this->fils[0]->getMoyenne() << "; moyenne de droite :" << this->fils[1]->getMoyenne() << std::endl;
 
         if (this->fils[0]->getMoyenne() == this->fils[1]->getMoyenne()) {
-            std::cout << "égalilté" << std::endl;
+            //            std::cout << "égalilté" << std::endl;
             // égalité => un lancé de dès va nous aider !
             int decisionRandom = getRandomDecision();
-            std::cout << "Décision prise : " << decisionRandom << std::endl;
+            //            std::cout << "Décision prise : " << decisionRandom << std::endl;
             cheminSim->push_back(decisionRandom);
             return this->fils[decisionRandom];
         } else {
 
             if (this->fils[0]->getMoyenne() > this->fils[1]->getMoyenne()) {
                 // m.a.j.cheminSim 
-                cheminSim->push_back(0);
-                std::cout << "descente à gauche " << std::endl;
+                                cheminSim->push_back(0); // ------------ MODIFICATION PAR NATHAN !!!!!!!!!!!!!!!
+                //                std::cout << "descente à gauche " << std::endl;
                 return this->fils[0]->descente(cheminSim);
             } else {
-                cheminSim->push_back(1);
-                std::cout << "descente à droite" << std::endl;
+                                cheminSim->push_back(1);// ------------ MODIFICATION PAR NATHAN !!!!!!!!!!!!!!!
+                //                std::cout << "descente à droite" << std::endl;
                 return this->fils[1]->descente(cheminSim);
             }
         }
@@ -184,7 +186,7 @@ void noeud::simuler(int budget, std::vector<int> *chemin) {
 
     // si pas déjà en fin de partie (profMax) alors n est à étendre
     if (chemin->size() < Constantes::profondeurMax) {
-        n = n->expension(/*cheminSim*/);
+        n = n->expension(cheminSim);
         cheminSim = n->rollout(cheminSim); // terminer la partie aléatoirement, score de n = résultat de cette partie
     }
 
@@ -200,12 +202,12 @@ void noeud::calculMoyenne() {
 
     if (this->decisionDuPere == 1 || this->pere->peutContinuerAGagnerDesPoints == false) {
 
-        std::cout << "calculM if" << std::endl;
-        std::cout << this->pere->moyenne << std::endl;
+        //        std::cout << "calculM if" << std::endl;
+        //        std::cout << this->pere->moyenne << std::endl;
         this->moyenne = this->pere->moyenne;
     } else {
-        std::cout << "calculM else" << std::endl;
-        std::cout << this->pere->moyenne << std::endl;
+        //        std::cout << "calculM else" << std::endl;
+        //        std::cout << this->pere->moyenne << std::endl;
         this->moyenne = this->pere->moyenne + 1;
     }
 }
@@ -223,7 +225,7 @@ int noeud::calculScore(std::vector<int> *chemin) {
         }
     }
 
-    std::cout << "Calcul score :" << score << std::endl;
+    //    std::cout << "Calcul score :" << score << std::endl;
 
     return score;
 }
@@ -242,7 +244,7 @@ void noeud::retropropagation(int leScore) {
     // incrementer cptpassages
     //    this->cptPassage++;
     // si il y a un pere alors this->pere->retropropagation(score)
-    if (this->pere != nullptr) {
+    if (this->pere->pere != nullptr) {
         this->pere->retropropagation(this->getMoyenne());
     }
 
