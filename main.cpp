@@ -25,10 +25,10 @@ using namespace std;
 
 
 int main(int argc, char** argv) {
-    
+
     // Initialisation de la graine aléatoire
     //srand(time(NULL));
-    
+
     bool finDePartie = false;
 
     vector<int> *chemin = new vector<int>;
@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 
         // décider un coup IA
 
-        // creation d'un arbre
+        // arbre représente le noeud sur lequel on se trouve
         noeud * arbre = new noeud();
 
         //      échantilloner la prochaine décision
@@ -52,10 +52,17 @@ int main(int argc, char** argv) {
         int meilleurChoix;
 
         // juste comparer les 2 fils
-        int cptBrancheGauche = arbre->getFils()[0]->getCptPassage();
-        int cptBrancheDroite = arbre->getFils()[1]->getCptPassage();
 
-        if (cptBrancheGauche > cptBrancheDroite) {
+
+//        float moyenneBrancheGauche = arbre->getFils()[0]->getMoyenne();
+//        cout << "CptPassage gauche :" << arbre->getFils()[0]->getCptPassage() << endl;
+//        cout << "Moyenne branche gauche : " << moyenneBrancheGauche << endl;
+//
+//        float moyenneBrancheDroite = arbre->getFils()[1]->getMoyenne();
+//        cout << "CptPassage droite:" << arbre->getFils()[1]->getCptPassage() << endl;
+//        cout << "Moyenne branche droite : " << moyenneBrancheDroite << endl;
+
+        if (arbre->getFils()[0]->getCptPassage() > arbre->getFils()[1]->getCptPassage()) {
             meilleurChoix = 0;
         } else {
             meilleurChoix = 1;
@@ -70,7 +77,10 @@ int main(int argc, char** argv) {
         //arbre->getFils()[1 - meilleurChoix]->~noeud(); // on supprime ce qui ne nous sert plus
         //arbre = arbre->getFils()[meilleurChoix]; // déplace la racine de l'arbre.
 
-        cout << "chemin [";
+
+        cout << endl << "___FIN DE SIMULATION___" << endl;
+
+        cout << "Chemin final [";
         for (int i = 0; i < chemin->size(); i++) {
             cout << (*chemin)[i] << ",";
         }

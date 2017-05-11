@@ -38,7 +38,7 @@ public:
     void simuler(int budget, std::vector<int> *chemin);
     noeud *getMeilleurFils();
     decision *getDecision();
-    noeud * expension(/*std::vector<int> cheminSim*/);
+    noeud * expension(std::vector<int> *cheminSim);
     void calculMoyenne();
     void retropropagation(int leScore);
     noeud * descente(std::vector<int> *cheminSim);

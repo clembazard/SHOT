@@ -164,22 +164,16 @@ std::vector<int> *noeud::rollout(std::vector<int> *cheminSim) {
 void noeud::simuler(int budget, std::vector<int> *chemin) {
 
 
-    /*fixme : c'est bien ce qu'il me semblait, vu que c'est pas un pointeur,
-     * une variable locale est recréée pour dans chaque fonction, et donc les 
-     * modification apportés ne sont pas prises en comptes.
-     * 
-     * Du coup, le rollout fait tout absolument en random et ne tiens pas compte
-     * des décision déjà prise par la descente
-     */
+    
 
     // copie chemin
-    std::cout << "chemin : ";
-    afficherVector(chemin);
-    std::cout << std::endl;
+//    std::cout << "chemin : ";
+//    afficherVector(chemin);
+//    std::cout << std::endl;
     std::vector<int> *cheminSim = clonerVector(chemin);
-    std::cout << "cheminSim : ";
-    afficherVector(cheminSim);
-    std::cout << std::endl;
+//    std::cout << "cheminSim : ";
+//    afficherVector(cheminSim);
+//    std::cout << std::endl;
 
     // descente 
     noeud *n = this->descente(cheminSim);
@@ -231,12 +225,13 @@ int noeud::calculScore(std::vector<int> *chemin) {
 }
 
 void noeud::retropropagation(int leScore) {
-    // fixme 
     if (this->getCptPassage() == 0) // nouveau noeud feuille
         this->setMoyenne(leScore);
     else {
         // sur un ancetre de la feuille
         this->setMoyenne((this->getMoyenne() + leScore) / 2);
+        
+        //todo : moyenne cumulative
     }
 
     // regarder wikipedia moyenne cumulative

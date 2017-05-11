@@ -16,8 +16,8 @@
 
 class Constantes {
 public:
-    static const int budget = 20;
-    static const int profondeurMax = 16;
+    static const int budget = 50;
+    static const int profondeurMax = 32;
 
 
     Constantes();
