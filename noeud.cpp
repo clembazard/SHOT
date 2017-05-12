@@ -113,7 +113,7 @@ int noeud::getRandomDecision() {
 noeud * noeud::descente(std::vector<int> *cheminSim) {
 
     // incrémente le compteur de passage du noeud en question
-    this->cptPassage++;
+//    this->cptPassage++;
 
     // arréter si prof max retourner ce noeud feuille 
 
@@ -123,6 +123,7 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
     } else {
         // descendre sur fils le +prometteur
         // todo : ajouter de l'aléa
+        // moyenne + k * sqrt(2ln(moyenne) / n) k = 0.1 ou 0.3 ou 1
 
         //        std::cout << "Moyenne de gauche :" << this->fils[0]->getMoyenne() << "; moyenne de droite :" << this->fils[1]->getMoyenne() << std::endl;
 
@@ -137,11 +138,11 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
 
             if (this->fils[0]->getMoyenne() > this->fils[1]->getMoyenne()) {
                 // m.a.j.cheminSim 
-                                cheminSim->push_back(0); // ------------ MODIFICATION PAR NATHAN !!!!!!!!!!!!!!!
+                                cheminSim->push_back(0); 
                 //                std::cout << "descente à gauche " << std::endl;
                 return this->fils[0]->descente(cheminSim);
             } else {
-                                cheminSim->push_back(1);// ------------ MODIFICATION PAR NATHAN !!!!!!!!!!!!!!!
+                                cheminSim->push_back(1);
                 //                std::cout << "descente à droite" << std::endl;
                 return this->fils[1]->descente(cheminSim);
             }
@@ -225,6 +226,9 @@ int noeud::calculScore(std::vector<int> *chemin) {
 }
 
 void noeud::retropropagation(int leScore) {
+    // incrementer cptpassages
+        this->cptPassage++;
+        
     if (this->getCptPassage() == 0) // nouveau noeud feuille
         this->setMoyenne(leScore);
     else {
@@ -233,11 +237,8 @@ void noeud::retropropagation(int leScore) {
         
         //todo : moyenne cumulative
     }
-
     // regarder wikipedia moyenne cumulative
 
-    // incrementer cptpassages
-    //    this->cptPassage++;
     // si il y a un pere alors this->pere->retropropagation(score)
     if (this->pere->pere != nullptr) {
         this->pere->retropropagation(this->getMoyenne());
