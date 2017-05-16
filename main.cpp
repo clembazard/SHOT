@@ -25,9 +25,10 @@ using namespace std;
 
 
 int main(int argc, char** argv) {
-
     // Initialisation de la graine aléatoire
-    //srand(time(NULL));
+    srand(time(NULL));
+
+    cout << sqrt(1) << endl;
 
     bool finDePartie = false;
 
@@ -43,7 +44,7 @@ int main(int argc, char** argv) {
 
         //      échantilloner la prochaine décision
         for (int i = 0; i < Constantes::budget; i++) {
-            cout << "simulation " << i << endl;
+            //            cout << "simulation " << i << endl;
             arbre->simuler(Constantes::budget, chemin);
 
         }
@@ -54,13 +55,13 @@ int main(int argc, char** argv) {
         // juste comparer les 2 fils
 
 
-//        float moyenneBrancheGauche = arbre->getFils()[0]->getMoyenne();
-//        cout << "CptPassage gauche :" << arbre->getFils()[0]->getCptPassage() << endl;
-//        cout << "Moyenne branche gauche : " << moyenneBrancheGauche << endl;
-//
-//        float moyenneBrancheDroite = arbre->getFils()[1]->getMoyenne();
-//        cout << "CptPassage droite:" << arbre->getFils()[1]->getCptPassage() << endl;
-//        cout << "Moyenne branche droite : " << moyenneBrancheDroite << endl;
+        float moyenneBrancheGauche = arbre->getFils()[0]->getMoyenne();
+        cout << "CptPassage gauche :" << arbre->getFils()[0]->getCptPassage() << endl;
+        cout << "Moyenne branche gauche : " << moyenneBrancheGauche << endl;
+
+        float moyenneBrancheDroite = arbre->getFils()[1]->getMoyenne();
+        cout << "CptPassage droite:" << arbre->getFils()[1]->getCptPassage() << endl;
+        cout << "Moyenne branche droite : " << moyenneBrancheDroite << endl;
 
         if (arbre->getFils()[0]->getCptPassage() > arbre->getFils()[1]->getCptPassage()) {
             meilleurChoix = 0;
