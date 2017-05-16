@@ -113,7 +113,7 @@ int noeud::getRandomDecision() {
 noeud * noeud::descente(std::vector<int> *cheminSim) {
 
     // incrémente le compteur de passage du noeud en question
-    //    this->cptPassage++;
+//    this->cptPassage++;
 
     // arréter si prof max retourner ce noeud feuille 
 
@@ -125,30 +125,27 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
         // todo : ajouter de l'aléa
         // moyenne + k * sqrt(2ln(moyenne) / n) k = 0.1 ou 0.3 ou 1        
 
-        double aleaGauche = -1;
-        double aleaDroite = -1;
-
-        if (this->fils[0]->getCptPassage() != 0 && this->getCptPassage() != 0) {
-            aleaGauche = this->fils[0]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage())) / this->fils[0]->getCptPassage()))));
-        }
-        if (this->fils[1]->getCptPassage() != 0 && this->getCptPassage() != 0) {
-            aleaDroite = this->fils[1]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage())) / this->fils[1]->getCptPassage()))));
-        }
+        double aleaGauche = this->fils[0]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage() + 1)) / this->fils[0]->getCptPassage()))));
+        double aleaDroite = this->fils[1]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage() + 1)) / this->fils[1]->getCptPassage()))));
 
         //        std::cout << "Alea gauche :" << aleaGauche << std::endl;
         //        std::cout << "Alea droite :" << aleaDroite << std::endl;
         //        std::cout << "Moyenne de gauche :" << this->fils[0]->getMoyenne() << "; moyenne de droite :" << this->fils[1]->getMoyenne() << std::endl;
 
         if (aleaGauche == aleaDroite) {
-            cheminSim->push_back(0);
             std::cout << "EGALITE" << std::endl;
-            return this->fils[0]->descente(cheminSim);
+            int randomDecision = getRandomDecision();
+            cheminSim->push_back(randomDecision);
+            return this->fils[randomDecision]->descente(cheminSim);
         } else if (aleaGauche > aleaDroite) {
             // m.a.j.cheminSim 
             cheminSim->push_back(0);
             //                std::cout << "descente à gauche " << std::endl;
             return this->fils[0]->descente(cheminSim);
         } else if (aleaGauche < aleaDroite) {
+
+            std::cout << "Ca passe à droite !!!!" << std::endl;
+
             cheminSim->push_back(1);
             //                std::cout << "descente à droite" << std::endl;
             return this->fils[1]->descente(cheminSim);
@@ -156,30 +153,6 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
     }
 }
 
-//        std::cout << "Moyenne de gauche :" << this->fils[0]->getMoyenne() << "; moyenne de droite :" << this->fils[1]->getMoyenne() << std::endl;
-
-//        if (this->fils[0]->getMoyenne() == this->fils[1]->getMoyenne()) {
-//            //            std::cout << "égalilté" << std::endl;
-//            // égalité => un lancé de dès va nous aider !
-//            int decisionRandom = getRandomDecision();
-//            //            std::cout << "Décision prise : " << decisionRandom << std::endl;
-//            cheminSim->push_back(decisionRandom);
-//            return this->fils[decisionRandom];
-//        } else {
-//
-//            if (this->fils[0]->getMoyenne() > this->fils[1]->getMoyenne()) {
-//                // m.a.j.cheminSim 
-//                cheminSim->push_back(0);
-//                //                std::cout << "descente à gauche " << std::endl;
-//                return this->fils[0]->descente(cheminSim);
-//            } else {
-//                cheminSim->push_back(1);
-//                //                std::cout << "descente à droite" << std::endl;
-//                return this->fils[1]->descente(cheminSim);
-//            }
-//        }
-// }
-//}
 
 
 
@@ -261,7 +234,7 @@ void noeud::retropropagation(int leScore) {
     //    std::cout << "Score du rollout : " << leScore << std::endl;
 
     // incrementer cptpassages
-    this->cptPassage++;
+        this->cptPassage++;
 
     //    if (this->getCptPassage() == 0) // nouveau noeud feuille
     //        this->setMoyenne(leScore);
