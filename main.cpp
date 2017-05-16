@@ -28,8 +28,6 @@ int main(int argc, char** argv) {
     // Initialisation de la graine aléatoire
     srand(time(NULL));
 
-    cout << sqrt(1) << endl;
-
     bool finDePartie = false;
 
     vector<int> *chemin = new vector<int>;
@@ -73,10 +71,6 @@ int main(int argc, char** argv) {
         // chemin + (choix) ? "g" : "d";
 
         chemin->push_back(meilleurChoix);
-
-        //       affectuer le meilleur choix : déplacer la racine "arbre"
-        //arbre->getFils()[1 - meilleurChoix]->~noeud(); // on supprime ce qui ne nous sert plus
-        //arbre = arbre->getFils()[meilleurChoix]; // déplace la racine de l'arbre.
 
 
         cout << endl << "___FIN DE SIMULATION___" << endl;

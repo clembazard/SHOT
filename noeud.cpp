@@ -23,12 +23,7 @@ noeud::noeud() {
 }
 
 noeud::noeud(const noeud& orig) {
-    //    this->moyenne = orig.moyenne;
-    //    this->cptPassage = orig.cptPassage;
-    //    this->peutContinuerAGagnerDesPoints = orig.peutContinuerAGagnerDesPoints;
-    //    this->decisionDuPere = orig.decisionDuPere;
-    //    this->pere = orig->pere;
-    //    this->fils = orig->fils;
+
 }
 
 noeud::~noeud() {
@@ -43,20 +38,16 @@ noeud * noeud::expension(std::vector<int> *cheminSim) {
         noeud *noeudGauche = new noeud();
         noeudGauche->setDecisionPere(0);
         noeudGauche->setPere(this);
-        //        noeudGauche->calculMoyenne();
         this->fils.push_back(noeudGauche);
         cheminSim->push_back(0);
-        //        std::cout << "Branche gauche créée" << std::endl;
         return noeudGauche;
     } else {
         noeud *noeudDroite = new noeud();
         noeudDroite->setDecisionPere(1);
         noeudDroite->peutContinuerAGagnerDesPoints = false;
         noeudDroite->setPere(this);
-        //        noeudDroite->calculMoyenne();
         this->fils.push_back(noeudDroite);
         cheminSim->push_back(1);
-        //        std::cout << "Branche droite créée" << std::endl;
         return noeudDroite;
     }
 }
@@ -111,26 +102,12 @@ int noeud::getRandomDecision() {
 }
 
 noeud * noeud::descente(std::vector<int> *cheminSim) {
-
-    // incrémente le compteur de passage du noeud en question
-//    this->cptPassage++;
-
     // arréter si prof max retourner ce noeud feuille 
-
-
     if (this->fils.size() < 2 || cheminSim->size() == Constantes::profondeurMax) { // noeud pas complètement développé
         return this;
     } else {
-        // descendre sur fils le +prometteur
-        // todo : ajouter de l'aléa
-        // moyenne + k * sqrt(2ln(moyenne) / n) k = 0.1 ou 0.3 ou 1        
-
         double aleaGauche = this->fils[0]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage() + 1)) / this->fils[0]->getCptPassage()))));
         double aleaDroite = this->fils[1]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage() + 1)) / this->fils[1]->getCptPassage()))));
-
-        //        std::cout << "Alea gauche :" << aleaGauche << std::endl;
-        //        std::cout << "Alea droite :" << aleaDroite << std::endl;
-        //        std::cout << "Moyenne de gauche :" << this->fils[0]->getMoyenne() << "; moyenne de droite :" << this->fils[1]->getMoyenne() << std::endl;
 
         if (aleaGauche == aleaDroite) {
             std::cout << "EGALITE" << std::endl;
@@ -167,32 +144,16 @@ std::vector<int> *noeud::rollout(std::vector<int> *cheminSim) {
 }
 
 void noeud::simuler(int budget, std::vector<int> *chemin) {
-
-
-
-
-    // copie chemin
-    //    std::cout << "chemin : ";
-    //    afficherVector(chemin);
-    //    std::cout << std::endl;
     std::vector<int> *cheminSim = clonerVector(chemin);
-    //    std::cout << "cheminSim : ";
-    //    afficherVector(cheminSim);
-    //    std::cout << std::endl;
-
     // descente 
     noeud *n = this->descente(cheminSim);
-
     // si pas déjà en fin de partie (profMax) alors n est à étendre
     if (chemin->size() < Constantes::profondeurMax) {
         n = n->expension(cheminSim);
         cheminSim = n->rollout(cheminSim); // terminer la partie aléatoirement, score de n = résultat de cette partie
     }
-
     // Prise en compte du score
     n->retropropagation(calculScore(cheminSim));
-
-    // FIN
 }
 
 // Calcul du score 
@@ -200,13 +161,8 @@ void noeud::simuler(int budget, std::vector<int> *chemin) {
 void noeud::calculMoyenne() {
 
     if (this->decisionDuPere == 1 || this->pere->peutContinuerAGagnerDesPoints == false) {
-
-        //        std::cout << "calculM if" << std::endl;
-        //        std::cout << this->pere->moyenne << std::endl;
         this->moyenne = this->pere->moyenne;
     } else {
-        //        std::cout << "calculM else" << std::endl;
-        //        std::cout << this->pere->moyenne << std::endl;
         this->moyenne = this->pere->moyenne + 1;
     }
 }
@@ -223,37 +179,19 @@ int noeud::calculScore(std::vector<int> *chemin) {
             winning = false;
         }
     }
-
-    //    std::cout << "Calcul score :" << score << std::endl;
-
     return score;
 }
 
 void noeud::retropropagation(int leScore) {
-
-    //    std::cout << "Score du rollout : " << leScore << std::endl;
-
     // incrementer cptpassages
-        this->cptPassage++;
-
-    //    if (this->getCptPassage() == 0) // nouveau noeud feuille
-    //        this->setMoyenne(leScore);
-    //    else {
-    // sur un ancetre de la feuille
-    //                this->setMoyenne((this->getMoyenne() + leScore) / 2);
-
+    this->cptPassage++;
 
     this->setMoyenne(this->getMoyenne() + ((leScore - this->getMoyenne()) / this->getCptPassage()));
-    //    }
-    // regarder wikipedia moyenne cumulative
 
-    // si il y a un pere alors this->pere->retropropagation(score)
+    // si il y a un pere alors mais qu'on est pas à la racine de l'arbre
     if (this->pere->pere != nullptr) {
         this->pere->retropropagation(this->getMoyenne());
     }
-
-    //this->pere->setMoyenne(this->moyenne);
-    //this->retropopagation(this->pere);
 }
 
 std::vector<int> * noeud::clonerVector(std::vector<int> *chemin) {
