@@ -93,7 +93,7 @@ void noeud::setMoyenne(float moyenne) {
 }
 
 int noeud::randomInt(int min, int max) {
-    return min + (rand() % (int) (max - min + 1));
+    return min + ((rand()>>4) % (int) (max - min + 1));
 }
 
 int noeud::getRandomDecision() {
@@ -121,7 +121,7 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
             return this->fils[0]->descente(cheminSim);
         } else if (aleaGauche < aleaDroite) {
 
-            std::cout << "Ca passe à droite !!!!" << std::endl;
+//            std::cout << "Ca passe à droite !!!!" << std::endl;
 
             cheminSim->push_back(1);
             //                std::cout << "descente à droite" << std::endl;
@@ -189,7 +189,7 @@ void noeud::retropropagation(int leScore) {
     this->setMoyenne(this->getMoyenne() + ((leScore - this->getMoyenne()) / this->getCptPassage()));
 
     // si il y a un pere alors mais qu'on est pas à la racine de l'arbre
-    if (this->pere->pere != nullptr) {
+    if (this->pere != nullptr) {
         this->pere->retropropagation(this->getMoyenne());
     }
 }

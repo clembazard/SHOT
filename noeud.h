@@ -62,7 +62,7 @@ public:
 
 private:
 
-    std::vector<int> *clonerVector(std::vector<int> *chemin);    
+    std::vector<int> *clonerVector(std::vector<int> *chemin);
     void afficherVector(std::vector<int> *chemin);
 
 

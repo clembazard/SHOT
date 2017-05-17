@@ -22,7 +22,7 @@ public:
     decision(int budget);
     decision(const decision& orig);
     virtual ~decision();
-    
+
     void jouer();
 
     // getter
