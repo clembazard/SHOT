@@ -36,6 +36,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Constantes.o \
+	${OBJECTDIR}/Coup.o \
+	${OBJECTDIR}/CoupMCTS.o \
+	${OBJECTDIR}/SimuMCTS.o \
+	${OBJECTDIR}/Simulation.o \
 	${OBJECTDIR}/TreeSearch.o \
 	${OBJECTDIR}/decision.o \
 	${OBJECTDIR}/main.o \
@@ -70,6 +74,26 @@ ${OBJECTDIR}/Constantes.o: Constantes.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Constantes.o Constantes.cpp
+
+${OBJECTDIR}/Coup.o: Coup.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Coup.o Coup.cpp
+
+${OBJECTDIR}/CoupMCTS.o: CoupMCTS.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CoupMCTS.o CoupMCTS.cpp
+
+${OBJECTDIR}/SimuMCTS.o: SimuMCTS.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimuMCTS.o SimuMCTS.cpp
+
+${OBJECTDIR}/Simulation.o: Simulation.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Simulation.o Simulation.cpp
 
 ${OBJECTDIR}/TreeSearch.o: TreeSearch.cpp
 	${MKDIR} -p ${OBJECTDIR}

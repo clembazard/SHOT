@@ -99,18 +99,17 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
         return this;
     } else {
 
-        std::vector<double> aleas;
+        std::vector<double> UCBs;
         for (int i = 0; i < this->fils.size(); i++) {
-            aleas.push_back(this->fils[i]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage() + 1)) / this->fils[i]->getCptPassage())))));
+            UCBs.push_back(this->fils[i]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage() + 1)) / this->fils[i]->getCptPassage())))));
         }
-
 
         int indexMeilleursAlea = -1;
         double meilleurAlea = 0;
 
-        for (int i = 0; i < aleas.size(); i++) {
-            if (aleas[i] > meilleurAlea) {
-                meilleurAlea = aleas[i];
+        for (int i = 0; i < UCBs.size(); i++) {
+            if (UCBs[i] > meilleurAlea) {
+                meilleurAlea = UCBs[i];
                 indexMeilleursAlea = i;
             }
         }

@@ -46,6 +46,8 @@ TreeSearch::TreeSearch() {
         int indexMeilleurFils = -1;
         int meilleursCptPassage = 0;
         for (int i = 0; i < arbre->getFils().size(); i++) {
+            std::cout << "Branche[" << i << "] -> {cptPassage : " << arbre->getFils()[i]->getCptPassage() << "; moyenne : " << arbre->getFils()[i]->getMoyenne() << " }" << std::endl;
+
             if (arbre->getFils()[i]->getCptPassage() > meilleursCptPassage) {
                 meilleursCptPassage = arbre->getFils()[i]->getCptPassage();
                 indexMeilleurFils = i;

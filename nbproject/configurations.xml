@@ -5,6 +5,10 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Constantes.h</itemPath>
+      <itemPath>Coup.h</itemPath>
+      <itemPath>CoupMCTS.h</itemPath>
+      <itemPath>SimuMCTS.h</itemPath>
+      <itemPath>Simulation.h</itemPath>
       <itemPath>TreeSearch.h</itemPath>
       <itemPath>decision.h</itemPath>
       <itemPath>noeud.h</itemPath>
@@ -17,6 +21,10 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Constantes.cpp</itemPath>
+      <itemPath>Coup.cpp</itemPath>
+      <itemPath>CoupMCTS.cpp</itemPath>
+      <itemPath>SimuMCTS.cpp</itemPath>
+      <itemPath>Simulation.cpp</itemPath>
       <itemPath>TreeSearch.cpp</itemPath>
       <itemPath>decision.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -50,6 +58,22 @@
       <item path="Constantes.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Constantes.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Coup.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Coup.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="CoupMCTS.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CoupMCTS.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SimuMCTS.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SimuMCTS.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Simulation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Simulation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TreeSearch.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -89,6 +113,22 @@
       <item path="Constantes.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Constantes.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Coup.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Coup.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="CoupMCTS.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CoupMCTS.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SimuMCTS.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SimuMCTS.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Simulation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Simulation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TreeSearch.cpp" ex="false" tool="1" flavor2="0">
       </item>
