@@ -100,7 +100,7 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
     } else {
 
         std::vector<double> aleas;
-        for (int i = 0; i < Constantes::nbBranches; i++) {
+        for (int i = 0; i < this->fils.size(); i++) {
             aleas.push_back(this->fils[i]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage() + 1)) / this->fils[i]->getCptPassage())))));
         }
 

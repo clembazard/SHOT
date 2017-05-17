@@ -45,7 +45,7 @@ TreeSearch::TreeSearch() {
 
         int indexMeilleurFils = -1;
         int meilleursCptPassage = 0;
-        for (int i = 0; i < Constantes::nbBranches; i++) {
+        for (int i = 0; i < arbre->getFils().size(); i++) {
             if (arbre->getFils()[i]->getCptPassage() > meilleursCptPassage) {
                 meilleursCptPassage = arbre->getFils()[i]->getCptPassage();
                 indexMeilleurFils = i;
