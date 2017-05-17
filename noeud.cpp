@@ -34,7 +34,6 @@ noeud * noeud::expension(std::vector<int> *cheminSim) {
     // sinon ajouter fils droit
     // ET retourner le noeud fils créé
 
-
     int index = this->getFils().size();
 
     noeud *n = new noeud();
@@ -43,23 +42,6 @@ noeud * noeud::expension(std::vector<int> *cheminSim) {
     this->fils.push_back(n);
     cheminSim->push_back(index);
     return n;
-
-    //    if (this->getFils().size() == 0) {
-    //        noeud *noeudGauche = new noeud();
-    //        noeudGauche->setDecisionPere(0);
-    //        noeudGauche->setPere(this);
-    //        this->fils.push_back(noeudGauche);
-    //        cheminSim->push_back(0);
-    //        return noeudGauche;
-    //    } else {
-    //        noeud *noeudDroite = new noeud();
-    //        noeudDroite->setDecisionPere(1);
-    //        noeudDroite->peutContinuerAGagnerDesPoints = false;
-    //        noeudDroite->setPere(this);
-    //        this->fils.push_back(noeudDroite);
-    //        cheminSim->push_back(1);
-    //        return noeudDroite;
-    //    }
 }
 
 int noeud::getCptPassage() {
@@ -135,29 +117,6 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
 
         cheminSim->push_back(indexMeilleursAlea);
         return this->fils[indexMeilleursAlea]->descente(cheminSim);
-
-
-        //        double aleaGauche = this->fils[0]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage() + 1)) / this->fils[0]->getCptPassage()))));
-        //        double aleaDroite = this->fils[1]->getMoyenne() + (Constantes::k * (2 * sqrt(((log(this->getCptPassage() + 1)) / this->fils[1]->getCptPassage()))));
-
-        //        if (aleaGauche == aleaDroite) {
-        //            std::cout << "EGALITE" << std::endl;
-        //            int randomDecision = getRandomDecision();
-        //            cheminSim->push_back(randomDecision);
-        //            return this->fils[randomDecision]->descente(cheminSim);
-        //        } else if (aleaGauche > aleaDroite) {
-        //            // m.a.j.cheminSim 
-        //            cheminSim->push_back(0);
-        //            //                std::cout << "descente à gauche " << std::endl;
-        //            return this->fils[0]->descente(cheminSim);
-        //        } else if (aleaGauche < aleaDroite) {
-        //
-        //            //            std::cout << "Ca passe à droite !!!!" << std::endl;
-        //
-        //            cheminSim->push_back(1);
-        //            //                std::cout << "descente à droite" << std::endl;
-        //            return this->fils[1]->descente(cheminSim);
-        //        }
     }
 }
 

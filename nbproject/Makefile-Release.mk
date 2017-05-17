@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Constantes.o \
+	${OBJECTDIR}/TreeSearch.o \
 	${OBJECTDIR}/decision.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/noeud.o
@@ -69,6 +70,11 @@ ${OBJECTDIR}/Constantes.o: Constantes.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Constantes.o Constantes.cpp
+
+${OBJECTDIR}/TreeSearch.o: TreeSearch.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TreeSearch.o TreeSearch.cpp
 
 ${OBJECTDIR}/decision.o: decision.cpp
 	${MKDIR} -p ${OBJECTDIR}
