@@ -6,15 +6,16 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/clembazard/NetBeansProjects/SHOT/noeud.cpp</file>
-            <file>file:/home/clembazard/NetBeansProjects/SHOT/main.cpp</file>
-        </group>
         <group name="Projet_shot 20170322-08:36:31">
             <file>file:/home/nathan/Documents/Master_ISIDIS_Semestre2/Projet_shot/SHOT/Constantes.h</file>
             <file>file:/home/nathan/Documents/Master_ISIDIS_Semestre2/Projet_shot/SHOT/main.cpp</file>
             <file>file:/home/nathan/Documents/Master_ISIDIS_Semestre2/Projet_shot/SHOT/noeud.cpp</file>
             <file>file:/home/nathan/Documents/Master_ISIDIS_Semestre2/Projet_shot/SHOT/noeud.h</file>
+        </group>
+        <group>
+            <file>file:/etudiants/cremond/NetBeansProjects/SHOT/main.cpp</file>
+            <file>file:/etudiants/cremond/NetBeansProjects/SHOT/Constantes.h</file>
+            <file>file:/etudiants/cremond/NetBeansProjects/SHOT/noeud.cpp</file>
         </group>
     </open-files>
 </project-private>

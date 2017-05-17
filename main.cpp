@@ -53,24 +53,36 @@ int main(int argc, char** argv) {
         // juste comparer les 2 fils
 
 
-        float moyenneBrancheGauche = arbre->getFils()[0]->getMoyenne();
-        cout << "CptPassage gauche :" << arbre->getFils()[0]->getCptPassage() << endl;
-        cout << "Moyenne branche gauche : " << moyenneBrancheGauche << endl;
-
-        float moyenneBrancheDroite = arbre->getFils()[1]->getMoyenne();
-        cout << "CptPassage droite:" << arbre->getFils()[1]->getCptPassage() << endl;
-        cout << "Moyenne branche droite : " << moyenneBrancheDroite << endl;
-        
-        for(int i;i<2;i++){
-            std::cout << arbre->getFils()[i]->getMoyenne() << " ";
-            std::cout << (Constantes::k * (2 * sqrt(((log(arbre->getCptPassage() + 1)) / arbre->getFils()[i]->getCptPassage())))) << std::endl;
+        int indexMeilleurFils = -1;
+        int meilleursCptPassage = 0;
+        for (int i = 0; i < Constantes::nbBranches; i++) {
+            if (arbre->getFils()[i]->getCptPassage() > meilleursCptPassage) {
+                meilleursCptPassage = arbre->getFils()[i]->getCptPassage();
+                indexMeilleurFils = i;
+            }
         }
 
-        if (arbre->getFils()[0]->getCptPassage() > arbre->getFils()[1]->getCptPassage()) {
-            meilleurChoix = 0;
-        } else {
-            meilleurChoix = 1;
-        }
+
+        //        float moyenneBrancheGauche = arbre->getFils()[0]->getMoyenne();
+        //        cout << "CptPassage gauche :" << arbre->getFils()[0]->getCptPassage() << endl;
+        //        cout << "Moyenne branche gauche : " << moyenneBrancheGauche << endl;
+        //
+        //        float moyenneBrancheDroite = arbre->getFils()[1]->getMoyenne();
+        //        cout << "CptPassage droite:" << arbre->getFils()[1]->getCptPassage() << endl;
+        //        cout << "Moyenne branche droite : " << moyenneBrancheDroite << endl;
+
+        //        for(int i;i<2;i++){
+        //            std::cout << arbre->getFils()[i]->getMoyenne() << " ";
+        //            std::cout << (Constantes::k * (2 * sqrt(((log(arbre->getCptPassage() + 1)) / arbre->getFils()[i]->getCptPassage())))) << std::endl;
+        //        }
+        //
+        //        if (arbre->getFils()[0]->getCptPassage() > arbre->getFils()[1]->getCptPassage()) {
+        //            meilleurChoix = 0;
+        //        } else {
+        //            meilleurChoix = 1;
+        //        }
+
+        meilleurChoix = indexMeilleurFils;
 
         // appliquer le meilleur choix
         // chemin + (choix) ? "g" : "d";
