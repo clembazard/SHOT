@@ -60,6 +60,11 @@ int main(int argc, char** argv) {
         float moyenneBrancheDroite = arbre->getFils()[1]->getMoyenne();
         cout << "CptPassage droite:" << arbre->getFils()[1]->getCptPassage() << endl;
         cout << "Moyenne branche droite : " << moyenneBrancheDroite << endl;
+        
+        for(int i;i<2;i++){
+            std::cout << arbre->getFils()[i]->getMoyenne() << " ";
+            std::cout << (Constantes::k * (2 * sqrt(((log(arbre->getCptPassage() + 1)) / arbre->getFils()[i]->getCptPassage())))) << std::endl;
+        }
 
         if (arbre->getFils()[0]->getCptPassage() > arbre->getFils()[1]->getCptPassage()) {
             meilleurChoix = 0;
