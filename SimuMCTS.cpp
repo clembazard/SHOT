@@ -22,8 +22,6 @@ SimuMCTS::SimuMCTS(std::vector<int> *chemin) {
     for (int i = 0; i < Constantes::nbBranches; i++) {
         this->coupsPossibles.push_back(i);
     }
-
-
 }
 
 SimuMCTS::SimuMCTS(const SimuMCTS& orig) {
@@ -32,12 +30,14 @@ SimuMCTS::SimuMCTS(const SimuMCTS& orig) {
 SimuMCTS::~SimuMCTS() {
 }
 
-std::vector<Coup> SimuMCTS::getCoupsPossibles() {
+std::vector<CoupMCTS> SimuMCTS::getCoupsPossibles() {
     //    return this->coupsPossibles;
 }
 
-void SimuMCTS::jouerCoup(Coup coup) {
-
+void SimuMCTS::jouerCoup(CoupMCTS coup) {
+    this->cheminSim->push_back(coup.getValeur());
+    // suppression du coup choisi, en général ce sera le premier de la liste
+    this->cheminSim->erase(this->cheminSim->begin());
 }
 
 bool SimuMCTS::estTermine() {

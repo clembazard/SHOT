@@ -22,7 +22,10 @@
 #include <iostream>
 
 
+
+#include "Constantes.h"
 #include "decision.h"
+#include "SimuMCTS.h"
 
 class noeud {
 public:

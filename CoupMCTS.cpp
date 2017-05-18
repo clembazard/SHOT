@@ -14,6 +14,7 @@
 #include "CoupMCTS.h"
 
 CoupMCTS::CoupMCTS(int valeur) {
+    this->valeur = valeur;
 }
 
 CoupMCTS::CoupMCTS(const CoupMCTS& orig) {
@@ -22,7 +23,7 @@ CoupMCTS::CoupMCTS(const CoupMCTS& orig) {
 CoupMCTS::~CoupMCTS() {
 }
 
-int CoupMCTS::getValeur(){
+int CoupMCTS::getValeur() {
     return this->valeur;
 }
 

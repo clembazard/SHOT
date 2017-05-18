@@ -12,9 +12,7 @@
  */
 
 #include <stdbool.h>
-
 #include "noeud.h"
-#include "Constantes.h"
 
 noeud::noeud() {
     this->moyenne = 0;
@@ -40,7 +38,7 @@ noeud * noeud::expension(std::vector<int> *cheminSim) {
     n->setDecisionPere(index);
     n->setPere(this);
     this->fils.push_back(n);
-    cheminSim->push_back(index);
+    //    cheminSim->push_back(index);
     return n;
 }
 
@@ -133,7 +131,9 @@ std::vector<int> *noeud::rollout(std::vector<int> *cheminSim) {
 }
 
 void noeud::simuler(int budget, std::vector<int> *chemin) {
-    std::vector<int> *cheminSim = clonerVector(chemin);
+        std::vector<int> *cheminSim = clonerVector(chemin);
+
+//    SimuMCTS * simulation = new SimuMCTS(chemin);
     // descente 
     noeud *n = this->descente(cheminSim);
     // si pas déjà en fin de partie (profMax) alors n est à étendre
