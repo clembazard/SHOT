@@ -41,7 +41,7 @@ std::vector<int> *SimuMCTS::getCoupsPossibles() {
 void SimuMCTS::jouerCoup(CoupMCTS coup) {
     this->cheminSim->push_back(coup.getValeur());
     // suppression du coup choisi, en général ce sera le premier de la liste
-    this->cheminSim->erase(this->cheminSim->begin());
+//    this->cheminSim->erase(this->cheminSim->begin());
 }
 
 bool SimuMCTS::estTermine() {
@@ -56,4 +56,21 @@ std::vector<int> * SimuMCTS::clonerVector(std::vector<int> *chemin) {
     }
     return v;
 
+}
+
+
+int SimuMCTS::calculScore() {
+    bool winning = true;
+    float score = 0;
+        
+    for (int i = 0; i < this->cheminSim->size(); i++) {
+        if ((*this->cheminSim)[i] == 0) {
+            if (winning) {
+                score++;
+            }
+        } else {
+            winning = false;
+        }
+    }
+    return score;
 }

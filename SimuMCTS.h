@@ -27,12 +27,14 @@ public:
     std::vector<int> *getCoupsPossibles();
     void jouerCoup(CoupMCTS coup);
     bool estTermine();
+    int calculScore();
 
 private:
 
     std::vector<int> * clonerVector(std::vector<int> *chemin);
     std::vector<int> *cheminSim;
     std::vector<int> *coupsPossibles;
+    
 
 };
 
