@@ -14,13 +14,17 @@
 #include "SimuMCTS.h"
 #include "Constantes.h"
 
-SimuMCTS::SimuMCTS(std::vector<int> *chemin) {
-
+SimuMCTS::SimuMCTS(std::vector<int> *chemin){
+    // instanciation
+    this->cheminSim = new std::vector<int>;
+    this->coupsPossibles = new std::vector<int>;
+    
+    
     // cloner chemin
     this->cheminSim = clonerVector(chemin);
     // init coupsPossibles
     for (int i = 0; i < Constantes::nbBranches; i++) {
-        this->coupsPossibles.push_back(i);
+        this->coupsPossibles->push_back(i);
     }
 }
 
@@ -30,8 +34,8 @@ SimuMCTS::SimuMCTS(const SimuMCTS& orig) {
 SimuMCTS::~SimuMCTS() {
 }
 
-std::vector<CoupMCTS> SimuMCTS::getCoupsPossibles() {
-    //    return this->coupsPossibles;
+std::vector<int> *SimuMCTS::getCoupsPossibles() {
+    return this->coupsPossibles;
 }
 
 void SimuMCTS::jouerCoup(CoupMCTS coup) {

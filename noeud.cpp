@@ -120,6 +120,8 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
 
 
 
+
+
 // Remonte le score sur les noeuds père
 
 std::vector<int> *noeud::rollout(std::vector<int> *cheminSim) {
@@ -131,9 +133,9 @@ std::vector<int> *noeud::rollout(std::vector<int> *cheminSim) {
 }
 
 void noeud::simuler(int budget, std::vector<int> *chemin) {
-        std::vector<int> *cheminSim = clonerVector(chemin);
+    std::vector<int> *cheminSim = clonerVector(chemin);
 
-//    SimuMCTS * simulation = new SimuMCTS(chemin);
+    SimuMCTS  *simulation = new SimuMCTS(chemin);
     // descente 
     noeud *n = this->descente(cheminSim);
     // si pas déjà en fin de partie (profMax) alors n est à étendre

@@ -22,8 +22,13 @@ Simulation::Simulation(const Simulation& orig) {
 Simulation::~Simulation() {
 }
 
-//virtual void Simulation::jouerCoup(Coup coup){}
-//
-//virtual bool Simulation::estTermine(){
-//    
-//}
+std::vector<int> Simulation::coupsPossibles(){
+    
+}
+
+void Simulation::jouerCoup(Coup coup) {
+}
+
+bool Simulation::estTermine() {
+
+}
