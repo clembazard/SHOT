@@ -26,6 +26,7 @@ public:
     virtual std::vector<int> coupsPossibles();
     virtual void jouerCoup(Coup coup);
     virtual bool estTermine();
+    virtual int calculScore();
 
 private:
 };

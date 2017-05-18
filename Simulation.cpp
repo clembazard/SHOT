@@ -32,3 +32,7 @@ void Simulation::jouerCoup(Coup coup) {
 bool Simulation::estTermine() {
 
 }
+
+int Simulation::calculScore(){
+    
+}
