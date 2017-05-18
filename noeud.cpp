@@ -27,7 +27,7 @@ noeud::noeud(const noeud& orig) {
 noeud::~noeud() {
 }
 
-noeud * noeud::expension(std::vector<int> *cheminSim) {
+noeud * noeud::expension() {
     // Si pas de fils, ajouter fils gauche
     // sinon ajouter fils droit
     // ET retourner le noeud fils créé
@@ -91,9 +91,9 @@ int noeud::getRandomDecision() {
     return randomNumber;
 }
 
-noeud * noeud::descente(std::vector<int> *cheminSim) {
+noeud * noeud::descente(SimuMCTS *simulation) {
     // arréter si prof max retourner ce noeud feuille 
-    if (this->fils.size() < Constantes::nbBranches || cheminSim->size() == Constantes::profondeurMax) { // noeud pas complètement développé
+    if (this->fils.size() < Constantes::nbBranches || simulation->estTermine()) { // noeud pas complètement développé
         return this;
     } else {
 
@@ -112,37 +112,41 @@ noeud * noeud::descente(std::vector<int> *cheminSim) {
             }
         }
 
-        cheminSim->push_back(indexMeilleursAlea);
-        return this->fils[indexMeilleursAlea]->descente(cheminSim);
+        //        cheminSim->push_back(indexMeilleursAlea);
+        simulation->jouerCoup(CoupMCTS(indexMeilleursAlea));
+        return this->fils[indexMeilleursAlea]->descente(simulation);
     }
 }
+
+
 
 
 
 
 // Remonte le score sur les noeuds père
 
-std::vector<int> *noeud::rollout(std::vector<int> *cheminSim) {
+SimuMCTS *noeud::rollout(SimuMCTS *simulation) {
     //    std::cout << "ROLLOUT" << std::endl;
-    while (cheminSim->size() < Constantes::profondeurMax) {
-        cheminSim->push_back(this->getRandomDecision());
+    while (!simulation->estTermine()) {
+        simulation->jouerCoup(CoupMCTS(this->getRandomDecision()));
     }
-    return cheminSim;
+    return simulation;
 }
 
-void noeud::simuler(int budget, std::vector<int> *chemin) {
-        std::vector<int> *cheminSim = clonerVector(chemin);
+void noeud::simuler(std::vector<int> *chemin) {
+    //    std::vector<int> *cheminSim = clonerVector(chemin);
 
-//    SimuMCTS * simulation = new SimuMCTS(chemin);
+    SimuMCTS *simulation = new SimuMCTS(chemin);
     // descente 
-    noeud *n = this->descente(cheminSim);
+    noeud *n = this->descente(simulation);
     // si pas déjà en fin de partie (profMax) alors n est à étendre
     if (chemin->size() < Constantes::profondeurMax) {
-        n = n->expension(cheminSim);
-        cheminSim = n->rollout(cheminSim); // terminer la partie aléatoirement, score de n = résultat de cette partie
+        n = n->expension();
+        //        cheminSim = n->rollout(cheminSim); // terminer la partie aléatoirement, score de n = résultat de cette partie
+        simulation = n->rollout(simulation); // terminer la partie aléatoirement, score de n = résultat de cette partie
     }
     // Prise en compte du score
-    n->retropropagation(calculScore(cheminSim));
+    n->retropropagation(simulation->calculScore());
 }
 
 // Calcul du score 

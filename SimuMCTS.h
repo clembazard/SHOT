@@ -18,21 +18,23 @@
 #include "Coup.h"
 #include "CoupMCTS.h"
 
-class SimuMCTS : Simulation {
-public:
+class SimuMCTS : public Simulation {
+public:    
     SimuMCTS(std::vector<int> *chemin);
     SimuMCTS(const SimuMCTS& orig);
     virtual ~SimuMCTS();
 
-    std::vector<CoupMCTS> getCoupsPossibles();
+    std::vector<int> *getCoupsPossibles();
     void jouerCoup(CoupMCTS coup);
     bool estTermine();
+    int calculScore();
 
 private:
 
     std::vector<int> * clonerVector(std::vector<int> *chemin);
     std::vector<int> *cheminSim;
-    std::vector<CoupMCTS> coupsPossibles;
+    std::vector<int> *coupsPossibles;
+    
 
 };
 

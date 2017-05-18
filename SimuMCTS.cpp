@@ -14,13 +14,17 @@
 #include "SimuMCTS.h"
 #include "Constantes.h"
 
-SimuMCTS::SimuMCTS(std::vector<int> *chemin) {
-
+SimuMCTS::SimuMCTS(std::vector<int> *chemin){
+    // instanciation
+    this->cheminSim = new std::vector<int>;
+    this->coupsPossibles = new std::vector<int>;
+    
+    
     // cloner chemin
     this->cheminSim = clonerVector(chemin);
     // init coupsPossibles
     for (int i = 0; i < Constantes::nbBranches; i++) {
-        this->coupsPossibles.push_back(i);
+        this->coupsPossibles->push_back(i);
     }
 }
 
@@ -30,14 +34,14 @@ SimuMCTS::SimuMCTS(const SimuMCTS& orig) {
 SimuMCTS::~SimuMCTS() {
 }
 
-std::vector<CoupMCTS> SimuMCTS::getCoupsPossibles() {
-    //    return this->coupsPossibles;
+std::vector<int> *SimuMCTS::getCoupsPossibles() {
+    return this->coupsPossibles;
 }
 
 void SimuMCTS::jouerCoup(CoupMCTS coup) {
     this->cheminSim->push_back(coup.getValeur());
     // suppression du coup choisi, en général ce sera le premier de la liste
-    this->cheminSim->erase(this->cheminSim->begin());
+//    this->cheminSim->erase(this->cheminSim->begin());
 }
 
 bool SimuMCTS::estTermine() {
@@ -52,4 +56,21 @@ std::vector<int> * SimuMCTS::clonerVector(std::vector<int> *chemin) {
     }
     return v;
 
+}
+
+
+int SimuMCTS::calculScore() {
+    bool winning = true;
+    float score = 0;
+        
+    for (int i = 0; i < this->cheminSim->size(); i++) {
+        if ((*this->cheminSim)[i] == 0) {
+            if (winning) {
+                score++;
+            }
+        } else {
+            winning = false;
+        }
+    }
+    return score;
 }

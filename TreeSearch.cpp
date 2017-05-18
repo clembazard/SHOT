@@ -33,8 +33,7 @@ TreeSearch::TreeSearch() {
         //      échantilloner la prochaine décision
         for (int i = 0; i < Constantes::budget; i++) {
             //            cout << "simulation " << i << endl;
-            arbre->simuler(Constantes::budget, chemin);
-
+            arbre->simuler(chemin);
         }
 
         //       quel est le meilleur choix à la racine? la branche avec plus de passages

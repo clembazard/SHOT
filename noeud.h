@@ -38,14 +38,14 @@ public:
     noeud(const noeud& orig);
     virtual ~noeud();
 
-    void simuler(int budget, std::vector<int> *chemin);
+    void simuler(std::vector<int> *chemin);
     noeud *getMeilleurFils();
     decision *getDecision();
-    noeud * expension(std::vector<int> *cheminSim);
+    noeud * expension();
     void calculMoyenne();
     void retropropagation(int leScore);
-    noeud * descente(std::vector<int> *cheminSim);
-    std::vector<int> *rollout(std::vector<int> *cheminSim);
+    noeud * descente(SimuMCTS *simulation);
+    SimuMCTS *rollout(SimuMCTS *simulation);
     int calculScore(std::vector<int> *chemin);
 
 

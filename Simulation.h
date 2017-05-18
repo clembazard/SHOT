@@ -23,9 +23,10 @@ public:
     Simulation();
     Simulation(const Simulation& orig);
     virtual ~Simulation();
-    virtual std::vector<Coup> coupsPossibles() = 0;
-    virtual void jouerCoup(Coup coup) = 0;
-    virtual bool estTermine() = 0;
+    virtual std::vector<int> coupsPossibles();
+    virtual void jouerCoup(Coup coup);
+    virtual bool estTermine();
+    virtual int calculScore();
 
 private:
 };
