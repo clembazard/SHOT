@@ -74,6 +74,7 @@ TreeSearch::TreeSearch() {
     // afficher le score réel
     noeud noeudDeCalcul;
     std::cout << "score du jeu : " << noeudDeCalcul.calculScore(chemin) << std::endl;
+    delete chemin;
 }
 
 TreeSearch::TreeSearch(const TreeSearch& orig) {

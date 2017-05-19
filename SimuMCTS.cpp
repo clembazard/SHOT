@@ -16,9 +16,10 @@
 
 SimuMCTS::SimuMCTS(std::vector<int> *chemin){
     // instanciation
-    this->cheminSim = new std::vector<int>;
+//    this->cheminSim = new std::vector<int>;
+//    this->coupsPossibles = new std::vector<int>;
+    this->cheminSim = nullptr;
     this->coupsPossibles = new std::vector<int>;
-    
     
     // cloner chemin
     this->cheminSim = clonerVector(chemin);
@@ -32,6 +33,8 @@ SimuMCTS::SimuMCTS(const SimuMCTS& orig) {
 }
 
 SimuMCTS::~SimuMCTS() {
+    delete cheminSim;
+    delete coupsPossibles;
 }
 
 std::vector<int> *SimuMCTS::getCoupsPossibles() {

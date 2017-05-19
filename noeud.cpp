@@ -17,14 +17,17 @@
 noeud::noeud() {
     this->moyenne = 0;
     this->cptPassage = 0;
-    this->peutContinuerAGagnerDesPoints = true;
+    this->pere=nullptr;
 }
 
 noeud::noeud(const noeud& orig) {
-
 }
 
 noeud::~noeud() {
+    for(int i = 0 ; i < this->fils.size() ; i++) {
+        delete this->fils[i];
+    }
+//    delete this->pere;
 }
 
 noeud * noeud::expension() {
@@ -50,7 +53,7 @@ int noeud::getDecisionPere() {
     return this->decisionDuPere;
 }
 
-noeud *noeud::getPere() {
+noeud * noeud::getPere() {
     return this->pere;
 }
 
@@ -70,7 +73,7 @@ void noeud::setDecisionPere(int decision) {
     this->decisionDuPere = decision;
 }
 
-void noeud::setPere(noeud* pere) {
+void noeud::setPere(noeud * pere) {
     this->pere = pere;
 }
 
@@ -91,7 +94,7 @@ int noeud::getRandomDecision() {
     return randomNumber;
 }
 
-noeud * noeud::descente(SimuMCTS *simulation) {
+noeud * noeud::descente(SimuMCTS * simulation) {
     // arréter si prof max retourner ce noeud feuille 
     if (this->fils.size() < Constantes::nbBranches || simulation->estTermine()) { // noeud pas complètement développé
         return this;
@@ -125,7 +128,7 @@ noeud * noeud::descente(SimuMCTS *simulation) {
 
 // Remonte le score sur les noeuds père
 
-SimuMCTS *noeud::rollout(SimuMCTS *simulation) {
+SimuMCTS * noeud::rollout(SimuMCTS * simulation) {
     //    std::cout << "ROLLOUT" << std::endl;
     while (!simulation->estTermine()) {
         simulation->jouerCoup(CoupMCTS(this->getRandomDecision()));
@@ -134,7 +137,7 @@ SimuMCTS *noeud::rollout(SimuMCTS *simulation) {
 }
 
 void noeud::simuler(std::vector<int> *chemin) {
-    //    std::vector<int> *cheminSim = clonerVector(chemin);
+    //    std::vector<int> *cheminSim = clonerVector(chemin_
 
     SimuMCTS *simulation = new SimuMCTS(chemin);
     // descente 
@@ -147,6 +150,7 @@ void noeud::simuler(std::vector<int> *chemin) {
     }
     // Prise en compte du score
     n->retropropagation(simulation->calculScore());
+    delete simulation;
 }
 
 // Calcul du score 
@@ -173,6 +177,7 @@ int noeud::calculScore(std::vector<int> *chemin) {
         }
     }
     return score;
+
 }
 
 void noeud::retropropagation(int leScore) {
