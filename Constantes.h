@@ -16,10 +16,10 @@
 
 class Constantes {
 public:
-    static const int budget = 50;
-    static const int profondeurMax = 32;
+    static const int budget = 128;
+    static const int profondeurMax = 64;
     static const int nbBranches = 2;
-    static constexpr double k = 1; // 0.1 | 0.3 | 1 -> 0.3 semmble plus approprié pour une prodondeur max de 32 et un budget de 50
+    static constexpr double k = 0.3; // 0.1 | 0.3 | 1 -> 0.3 semmble plus approprié pour une prodondeur max de 32 et un budget de 50
 
     Constantes();
     Constantes(const Constantes& orig);

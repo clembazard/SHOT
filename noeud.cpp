@@ -209,3 +209,8 @@ void noeud::afficherVector(std::vector<int> *chemin) {
     }
     std::cout << std::endl;
 }
+
+
+void noeud::simulerSHOT(std::vector<int> *chemin){
+    std::cout << "Simule le SHOT" << std::endl;
+}

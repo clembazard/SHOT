@@ -5,53 +5,46 @@
  */
 
 /* 
- * File:   SimuMCTS.cpp
+ * File:   SimuSHOT.cpp
  * Author: cremond
  * 
- * Created on 17 mai 2017, 11:16
+ * Created on 22 mai 2017, 10:42
  */
 
-#include "SimuMCTS.h"
-#include "Constantes.h"
+#include "SimuSHOT.h"
 
-SimuMCTS::SimuMCTS(std::vector<int> *chemin){
-    // instanciation
-//    this->cheminSim = new std::vector<int>;
-//    this->coupsPossibles = new std::vector<int>;
+SimuSHOT::SimuSHOT(std::vector<int> *chemin) {
     this->cheminSim = nullptr;
     this->coupsPossibles = new std::vector<int>;
-    
+
     // cloner chemin
     this->cheminSim = clonerVector(chemin);
     // init coupsPossibles
     for (int i = 0; i < Constantes::nbBranches; i++) {
         this->coupsPossibles->push_back(i);
     }
+
 }
 
-SimuMCTS::SimuMCTS(const SimuMCTS& orig) {
+SimuSHOT::SimuSHOT(const SimuSHOT& orig) {
 }
 
-SimuMCTS::~SimuMCTS() {
+SimuSHOT::~SimuSHOT() {
     delete cheminSim;
     delete coupsPossibles;
 }
 
-std::vector<int> *SimuMCTS::getCoupsPossibles() {
-    return this->coupsPossibles;
-}
-
-void SimuMCTS::jouerCoup(CoupMCTS coup) {
+void SimuSHOT::jouerCoup(CoupSHOT coup) {
     this->cheminSim->push_back(coup.getValeur());
     // suppression du coup choisi, en général ce sera le premier de la liste
-//    this->cheminSim->erase(this->cheminSim->begin());
+    //    this->cheminSim->erase(this->cheminSim->begin());
 }
 
-bool SimuMCTS::estTermine() {
+bool SimuSHOT::estTermine() {
     return (this->cheminSim->size() == Constantes::profondeurMax) ? true : false;
 }
 
-std::vector<int> * SimuMCTS::clonerVector(std::vector<int> *chemin) {
+std::vector<int> * SimuSHOT::clonerVector(std::vector<int> *chemin) {
     std::vector<int> *v = new std::vector<int>;
     for (int i = 0; i < chemin->size(); i++) {
         int value = (*chemin)[i];
@@ -61,11 +54,10 @@ std::vector<int> * SimuMCTS::clonerVector(std::vector<int> *chemin) {
 
 }
 
-
-float SimuMCTS::calculScore() {
+float SimuSHOT::calculScore() {
     bool winning = true;
     float score = 0;
-        
+
     for (int i = 0; i < this->cheminSim->size(); i++) {
         if ((*this->cheminSim)[i] == 0) {
             if (winning) {
@@ -76,4 +68,15 @@ float SimuMCTS::calculScore() {
         }
     }
     return score;
+}
+
+std::vector<int> *SimuSHOT::getCoupsPossibles() {
+    std::vector<int> *v = new std::vector<int>;
+    if (this->cheminSim->size() < Constantes::profondeurMax) {
+        for (int i = 0; i < Constantes::nbBranches; i++) {
+            v->push_back(i);
+        }
+    }    
+    return v;
+
 }

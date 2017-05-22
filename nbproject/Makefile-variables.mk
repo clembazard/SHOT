@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=shot1
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/shot1
+CND_ARTIFACT_NAME_Debug=shot
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/shot
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=shot1.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/shot1.tar
+CND_PACKAGE_NAME_Debug=shot.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/shot.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=shot1
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/shot1
+CND_ARTIFACT_NAME_Release=shot
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/shot
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=shot1.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/shot1.tar
+CND_PACKAGE_NAME_Release=shot.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/shot.tar
 #
 # include compiler specific variables
 #

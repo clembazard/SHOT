@@ -33,6 +33,6 @@ bool Simulation::estTermine() {
 
 }
 
-int Simulation::calculScore(){
+float Simulation::calculScore(){
     
 }

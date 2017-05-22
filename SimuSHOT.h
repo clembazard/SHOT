@@ -5,38 +5,37 @@
  */
 
 /* 
- * File:   SimuMCTS.h
+ * File:   SimuSHOT.h
  * Author: cremond
  *
- * Created on 17 mai 2017, 11:16
+ * Created on 22 mai 2017, 10:42
  */
 
-#ifndef SIMUMCTS_H
-#define SIMUMCTS_H
+#ifndef SIMUSHOT_H
+#define SIMUSHOT_H
 
 #include "Simulation.h"
-#include "Coup.h"
-#include "CoupMCTS.h"
+#include "CoupSHOT.h"
+#include "Constantes.h"
 
-class SimuMCTS : public Simulation {
-public:    
-    SimuMCTS(std::vector<int> *chemin);
-    SimuMCTS(const SimuMCTS& orig);
-    virtual ~SimuMCTS();
-
+class SimuSHOT : public Simulation {
+public:
+    SimuSHOT(std::vector<int> *chemin);
+    SimuSHOT(const SimuSHOT& orig);
+    virtual ~SimuSHOT();
+    
     std::vector<int> *getCoupsPossibles();
-    void jouerCoup(CoupMCTS coup);
+    void jouerCoup(CoupSHOT coup);
     bool estTermine();
     float calculScore();
-
+        
+    
 private:
-
     std::vector<int> *clonerVector(std::vector<int> *chemin);
     std::vector<int> *cheminSim;
     std::vector<int> *coupsPossibles;
-    
 
 };
 
-#endif /* SIMUMCTS_H */
+#endif /* SIMUSHOT_H */
 

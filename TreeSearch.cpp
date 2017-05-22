@@ -18,7 +18,7 @@
 #include "TreeSearch.h"
 
 TreeSearch::TreeSearch() {
-    bool finDePartie = false;
+//    bool finDePartie = false;
 
     std::vector<int> *chemin = new std::vector<int>;
 

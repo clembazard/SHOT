@@ -39,6 +39,7 @@ public:
     virtual ~noeud();
 
     void simuler(std::vector<int> *chemin);
+    void simulerSHOT(std::vector<int> *chemin);
     noeud *getMeilleurFils();
     decision *getDecision();
     noeud * expension();

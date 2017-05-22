@@ -16,6 +16,7 @@
 #include "noeud.h"
 #include "Constantes.h"
 #include "TreeSearch.h"
+#include "SHOT.h"
 
 using namespace std;
 
@@ -30,8 +31,10 @@ int main(int argc, char** argv) {
     srand(time(NULL));
 
     // execution du MCTS
-    TreeSearch mcts;
+//    TreeSearch mcts;    
     
+    // execution du SHOT
+    SHOT shot;
     return 0;
 }
 

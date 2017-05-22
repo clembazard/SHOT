@@ -38,7 +38,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/Constantes.o \
 	${OBJECTDIR}/Coup.o \
 	${OBJECTDIR}/CoupMCTS.o \
+	${OBJECTDIR}/CoupSHOT.o \
+	${OBJECTDIR}/SHOT.o \
 	${OBJECTDIR}/SimuMCTS.o \
+	${OBJECTDIR}/SimuSHOT.o \
 	${OBJECTDIR}/Simulation.o \
 	${OBJECTDIR}/TreeSearch.o \
 	${OBJECTDIR}/decision.o \
@@ -64,11 +67,11 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/shot1
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/shot
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/shot1: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/shot: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/shot1 ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/shot ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/Constantes.o: Constantes.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -85,10 +88,25 @@ ${OBJECTDIR}/CoupMCTS.o: CoupMCTS.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CoupMCTS.o CoupMCTS.cpp
 
+${OBJECTDIR}/CoupSHOT.o: CoupSHOT.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CoupSHOT.o CoupSHOT.cpp
+
+${OBJECTDIR}/SHOT.o: SHOT.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SHOT.o SHOT.cpp
+
 ${OBJECTDIR}/SimuMCTS.o: SimuMCTS.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimuMCTS.o SimuMCTS.cpp
+
+${OBJECTDIR}/SimuSHOT.o: SimuSHOT.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimuSHOT.o SimuSHOT.cpp
 
 ${OBJECTDIR}/Simulation.o: Simulation.cpp
 	${MKDIR} -p ${OBJECTDIR}

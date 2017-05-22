@@ -7,7 +7,10 @@
       <itemPath>Constantes.h</itemPath>
       <itemPath>Coup.h</itemPath>
       <itemPath>CoupMCTS.h</itemPath>
+      <itemPath>CoupSHOT.h</itemPath>
+      <itemPath>SHOT.h</itemPath>
       <itemPath>SimuMCTS.h</itemPath>
+      <itemPath>SimuSHOT.h</itemPath>
       <itemPath>Simulation.h</itemPath>
       <itemPath>TreeSearch.h</itemPath>
       <itemPath>decision.h</itemPath>
@@ -23,7 +26,10 @@
       <itemPath>Constantes.cpp</itemPath>
       <itemPath>Coup.cpp</itemPath>
       <itemPath>CoupMCTS.cpp</itemPath>
+      <itemPath>CoupSHOT.cpp</itemPath>
+      <itemPath>SHOT.cpp</itemPath>
       <itemPath>SimuMCTS.cpp</itemPath>
+      <itemPath>SimuSHOT.cpp</itemPath>
       <itemPath>Simulation.cpp</itemPath>
       <itemPath>TreeSearch.cpp</itemPath>
       <itemPath>decision.cpp</itemPath>
@@ -67,9 +73,21 @@
       </item>
       <item path="CoupMCTS.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="CoupSHOT.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CoupSHOT.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SHOT.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SHOT.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SimuMCTS.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SimuMCTS.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SimuSHOT.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SimuSHOT.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Simulation.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -122,9 +140,21 @@
       </item>
       <item path="CoupMCTS.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="CoupSHOT.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CoupSHOT.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SHOT.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SHOT.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SimuMCTS.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SimuMCTS.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SimuSHOT.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SimuSHOT.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Simulation.cpp" ex="false" tool="1" flavor2="0">
       </item>
