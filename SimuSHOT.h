@@ -17,6 +17,9 @@
 #include "Simulation.h"
 #include "CoupSHOT.h"
 #include "Constantes.h"
+#include "noeud.h"
+#include <tuple>
+#include <stdexcept>
 
 class SimuSHOT : public Simulation {
 public:
@@ -28,12 +31,18 @@ public:
     void jouerCoup(CoupSHOT coup);
     bool estTermine();
     float calculScore();
+    void rollout();
         
+    void simulerSHOT(noeud *arbre, int budget, int budgetUtilise);
     
 private:
-    std::vector<int> *clonerVector(std::vector<int> *chemin);
     std::vector<int> *cheminSim;
     std::vector<int> *coupsPossibles;
+    
+    // Methods
+    std::vector<int> *clonerVector(std::vector<int> *chemin);
+    int randomInt(int min, int max);
+    int getRandomDecision();
 
 };
 

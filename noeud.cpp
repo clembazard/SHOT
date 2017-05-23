@@ -13,21 +13,22 @@
 
 #include <stdbool.h>
 #include "noeud.h"
+#include "SimuSHOT.h"
 
 noeud::noeud() {
     this->moyenne = 0;
     this->cptPassage = 0;
-    this->pere=nullptr;
+    this->pere = nullptr;
 }
 
 noeud::noeud(const noeud& orig) {
 }
 
 noeud::~noeud() {
-    for(int i = 0 ; i < this->fils.size() ; i++) {
+    for (int i = 0; i < this->fils.size(); i++) {
         delete this->fils[i];
     }
-//    delete this->pere;
+    //    delete this->pere;
 }
 
 noeud * noeud::expension() {
@@ -135,6 +136,14 @@ SimuMCTS * noeud::rollout(SimuMCTS * simulation) {
     }
     return simulation;
 }
+//
+//SimuSHOT * noeud::rollout(SimuSHOT * simulation) {
+//    //    std::cout << "ROLLOUT" << std::endl;
+//    while (!simulation->estTermine()) {
+//        simulation->jouerCoup(CoupSHOT(this->getRandomDecision()));
+//    }
+//    return simulation;
+//}
 
 void noeud::simuler(std::vector<int> *chemin) {
     //    std::vector<int> *cheminSim = clonerVector(chemin_
@@ -165,18 +174,19 @@ void noeud::calculMoyenne() {
 }
 
 int noeud::calculScore(std::vector<int> *chemin) {
-    bool winning = true;
+    float best = 0;
     float score = 0;
     for (int i = 0; i < chemin->size(); i++) {
         if ((*chemin)[i] == 0) {
-            if (winning) {
-                score++;
+            score++;
+            if (score > best) {
+                best = score;
             }
         } else {
-            winning = false;
+            score = 0;
         }
     }
-    return score;
+    return best;
 
 }
 
@@ -211,6 +221,3 @@ void noeud::afficherVector(std::vector<int> *chemin) {
 }
 
 
-void noeud::simulerSHOT(std::vector<int> *chemin){
-    std::cout << "Simule le SHOT" << std::endl;
-}

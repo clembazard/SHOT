@@ -12,6 +12,7 @@
  */
 
 #include "SimuSHOT.h"
+#include "noeud.h"
 
 SimuSHOT::SimuSHOT(std::vector<int> *chemin) {
     this->cheminSim = nullptr;
@@ -76,7 +77,62 @@ std::vector<int> *SimuSHOT::getCoupsPossibles() {
         for (int i = 0; i < Constantes::nbBranches; i++) {
             v->push_back(i);
         }
-    }    
+    }
     return v;
+}
 
+// todo : Simulation SHOT
+
+void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int budgetUtilise) {
+    if (this->estTermine()) {
+        budgetUtilise = 1;
+        arbre->retropropagation(this->calculScore());
+        return;
+    }
+    if (budget == 1) {
+        budgetUtilise = 1;
+        this->rollout();
+        arbre->retropropagation(arbre->calculScore(this->cheminSim));
+        return;
+    }
+
+    // 1. tentative de collection des paires (index, mouvements possibles)
+    
+    std::vector<std::tuple<int, int>> S;
+   for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+        S.push_back(std::make_tuple(i, (*this->getCoupsPossibles())[i]));
+    } 
+
+    // 2. créer des emplacements pour les fils si necessaire
+    if (arbre->getFils().size() == 0) {
+        for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+            arbre->expension();
+        }
+    }
+
+
+    // 3. si pas assez de budget pour tous les fils, choisir les moins explorés
+    if (budget < sizeof(S)) {
+
+        // faut faire le tri
+        std::vector<CoupSHOT> coupsEligibles;
+        
+    }
+
+    
+}
+
+void SimuSHOT::rollout() {
+    while (!this->estTermine()) {
+        this->jouerCoup(CoupSHOT(this->getRandomDecision()));
+    }
+}
+
+int SimuSHOT::randomInt(int min, int max) {
+    return min + ((rand() >> 4) % (int) (max - min + 1));
+}
+
+int SimuSHOT::getRandomDecision() {
+    int randomNumber = randomInt(0, (Constantes::nbBranches - 1));
+    return randomNumber;
 }

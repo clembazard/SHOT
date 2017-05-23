@@ -23,7 +23,7 @@ SHOT::SHOT() {
         noeud *arbre = new noeud();
         
         for (int i = 0; i < Constantes::budget; i++) {
-            arbre->simulerSHOT(chemin);
+            
 
         }
 

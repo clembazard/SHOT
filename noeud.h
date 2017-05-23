@@ -39,7 +39,6 @@ public:
     virtual ~noeud();
 
     void simuler(std::vector<int> *chemin);
-    void simulerSHOT(std::vector<int> *chemin);
     noeud *getMeilleurFils();
     decision *getDecision();
     noeud * expension();
@@ -47,6 +46,7 @@ public:
     void retropropagation(int leScore);
     noeud * descente(SimuMCTS *simulation);
     SimuMCTS *rollout(SimuMCTS *simulation);
+//    SimuSHOT *rollout(SimuSHOT * simulation);
     int calculScore(std::vector<int> *chemin);
 
 

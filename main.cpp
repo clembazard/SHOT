@@ -31,10 +31,10 @@ int main(int argc, char** argv) {
     srand(time(NULL));
 
     // execution du MCTS
-//    TreeSearch mcts;    
+    TreeSearch mcts;    
     
     // execution du SHOT
-    SHOT shot;
+//    SHOT shot;
     return 0;
 }
 
