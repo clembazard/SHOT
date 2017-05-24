@@ -86,6 +86,7 @@ std::vector<int> *SimuSHOT::getCoupsPossibles() {
 // todo : Simulation SHOT
 
 void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
+    std::cout << "ca rentre" << std::endl;
     if (this->estTermine()) {
         (*budgetUtilise) = 1;
         arbre->retropropagation(this->calculScore());
@@ -172,10 +173,8 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
                 nbRemoved--;
             }
         }
-        
+        eligible = this->filtrerEligible(eligible);
     }
-
-
 }
 
 void SimuSHOT::rollout() {
@@ -199,4 +198,14 @@ bool SimuSHOT::sortByCptPassage(noeud* lhs, noeud* rhs) {
 
 bool SimuSHOT::sortByAscendingScore(const std::tuple<int, int, float>& lhs, const std::tuple<int, int, float>& rhs) {
     return (std::get<2>(lhs) < std::get<2>(rhs));
+}
+
+std::vector<std::pair<int, int>> SimuSHOT::filtrerEligible(std::vector<std::pair<int, int>> paires) {
+    std::vector<std::pair<int, int>> result;
+    for (auto elem : paires) {
+        if (elem.first != -1) {
+            result.push_back(elem);
+        }
+    }
+    return result;
 }

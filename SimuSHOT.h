@@ -45,6 +45,8 @@ private:
     int randomInt(int min, int max);
     int getRandomDecision();
 
+    std::vector<std::pair<int, int>> filtrerEligible(std::vector<std::pair<int, int>> paires);
+    
     // tris
     static bool sortByCptPassage(noeud *lhs, noeud *rhs);
     static bool sortByAscendingScore(const std::tuple<int, int, float>& lhs, const std::tuple<int, int, float>& rhs);
