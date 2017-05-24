@@ -151,6 +151,22 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
             }
             // 7) recurse on child only on budget not only expanded
             // TODO correctedBudget = subBudget - tree.sibblings[i].cpt
+            int *childBudgetUsed = 0;
+            simulerSHOT(arbre->getFils()[i], subBudget, childBudgetUsed);
+            (*budgetUtilise) += (*childBudgetUsed);
+        }
+        // 8) "remove" worst half of sibblings (sequential halving)
+
+        // création de sortList
+        std::vector<std::tuple<int, int, float>> sortList;
+        for (auto elem : eligible) {
+            sortList.push_back(std::make_tuple(elem.first, elem.second, arbre->getFils()[elem.first]->getMoyenne()));
+        }
+        // tri de sortList
+        std::sort(sortList.begin(), sortList.end(), sortByAscendingScore);
+        int nbRemoved = floor(sortList.size() / 2);
+        for (auto elem : sortList) {
+            std::vector<std::pair<int, int>> im = S[std::get<0>(elem)];
         }
 
     }
@@ -175,4 +191,8 @@ int SimuSHOT::getRandomDecision() {
 
 bool SimuSHOT::sortByCptPassage(noeud* lhs, noeud* rhs) {
     return (lhs->getCptPassage() < rhs->getCptPassage());
+}
+
+bool SimuSHOT::sortByAscendingScore(const std::tuple<int, int, float>& lhs, const std::tuple<int, int, float>& rhs) {
+    return (std::get<2>(lhs) < std::get<2>(rhs));
 }

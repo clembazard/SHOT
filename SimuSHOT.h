@@ -33,10 +33,9 @@ public:
     bool estTermine();
     float calculScore();
     void rollout();
-
     void simulerSHOT(noeud *arbre, int budget, int *budgetUtilise);
 
-    static bool sortByCptPassage(noeud *lhs, noeud *rhs);
+
 private:
     std::vector<int> *cheminSim;
     std::vector<int> *coupsPossibles;
@@ -46,6 +45,9 @@ private:
     int randomInt(int min, int max);
     int getRandomDecision();
 
+    // tris
+    static bool sortByCptPassage(noeud *lhs, noeud *rhs);
+    static bool sortByAscendingScore(const std::tuple<int, int, float>& lhs, const std::tuple<int, int, float>& rhs);
 };
 
 #endif /* SIMUSHOT_H */

@@ -14,7 +14,10 @@
 #ifndef COUPSHOT_H
 #define COUPSHOT_H
 
-class CoupSHOT {
+#include "Coup.h"
+
+
+class CoupSHOT : Coup {
 public:
     CoupSHOT(int valeur);
     CoupSHOT(const CoupSHOT& orig);
