@@ -11,6 +11,8 @@
  * Created on 22 mai 2017, 10:42
  */
 
+#include <algorithm>
+
 #include "SimuSHOT.h"
 #include "noeud.h"
 
@@ -83,25 +85,25 @@ std::vector<int> *SimuSHOT::getCoupsPossibles() {
 
 // todo : Simulation SHOT
 
-void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int budgetUtilise) {
+void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
     if (this->estTermine()) {
-        budgetUtilise = 1;
+        (*budgetUtilise) = 1;
         arbre->retropropagation(this->calculScore());
         return;
     }
     if (budget == 1) {
-        budgetUtilise = 1;
+        (*budgetUtilise) = 1;
         this->rollout();
-        arbre->retropropagation(arbre->calculScore(this->cheminSim));
+        arbre->retropropagation(this->calculScore());
         return;
     }
 
     // 1. tentative de collection des paires (index, mouvements possibles)
-    
-    std::vector<std::tuple<int, int>> S;
-   for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
-        S.push_back(std::make_tuple(i, (*this->getCoupsPossibles())[i]));
-    } 
+
+    std::vector<std::pair<int, int>> S;
+    for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+        S.push_back(std::make_pair(i, (*this->getCoupsPossibles())[i]));
+    }
 
     // 2. créer des emplacements pour les fils si necessaire
     if (arbre->getFils().size() == 0) {
@@ -112,14 +114,68 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int budgetUtilise) {
 
 
     // 3. si pas assez de budget pour tous les fils, choisir les moins explorés
-    if (budget < sizeof(S)) {
+    if (budget < sizeof (S)) {
 
-        // faut faire le tri
-        std::vector<CoupSHOT> coupsEligibles;
+
+        // todo : faut faire le tri
+        std::sort(arbre->getFils().begin(), arbre->getFils().end(), sortByCptPassage);
+
+        int budgetCpt = budget;
+        for (int i = 0; i < arbre->getFils().size(); i++) {
+            if (budgetCpt > 0) {
+                this->jouerCoup(CoupSHOT(i));
+                this->rollout();
+                arbre->retropropagation(this->calculScore());
+                budgetCpt--;
+            }
+        }
+        (*budgetUtilise) = budget;
+        return;
+    }
+
+    // 4) enough budget: distribute it using sequential halving,
+    // so: while there is more than 1 possible move still eligible
+
+    std::vector<std::pair<int, int>> eligible = S; // <- deep copy of S
+    while (sizeof (eligible) > 1) {
+        //# 5) compute budget (+ previous budget) for sub branch
+        //#subBudget = max([1,
+        //#                 int((tree.cpt + budget) // (len(S) * math.ceil(math.log(len(tree.pmoves)))))])
+        int subBudget = std::max(1, (int) floor((budget / sizeof (S) * ceil(log(this->getCoupsPossibles()->size())))));
+
+        for (int i = 0; i < S.size(); i++) {
+            this->jouerCoup(CoupSHOT(S[i].second));
+            // 6) create real child node if slot still empty
+            if (arbre->getFils()[i] == nullptr) {
+                arbre->expension();
+            }
+            // 7) recurse on child only on budget not only expanded
+            // TODO correctedBudget = subBudget - tree.sibblings[i].cpt
+            int *childBudgetUsed = 0;
+            simulerSHOT(arbre->getFils()[i], subBudget, childBudgetUsed);
+            (*budgetUtilise) += (*childBudgetUsed);
+        }
+        // 8) "remove" worst half of sibblings (sequential halving)
+
+        // création de sortList
+        std::vector<std::tuple<int, int, float>> sortList;
+        for (auto elem : eligible) {
+            sortList.push_back(std::make_tuple(elem.first, elem.second, arbre->getFils()[elem.first]->getMoyenne()));
+        }
+        // tri de sortList
+        std::sort(sortList.begin(), sortList.end(), sortByAscendingScore);
+        int nbRemoved = floor(sortList.size() / 2);
+        for (auto elem : sortList) {
+            if (nbRemoved > 0) {
+                std::pair<int, int> im = S[std::get<0>(elem)];
+                im.first = -1; // fixme :voir si il faut pas faire un truc de pointeur avec ça
+                nbRemoved--;
+            }
+        }
         
     }
 
-    
+
 }
 
 void SimuSHOT::rollout() {
@@ -135,4 +191,12 @@ int SimuSHOT::randomInt(int min, int max) {
 int SimuSHOT::getRandomDecision() {
     int randomNumber = randomInt(0, (Constantes::nbBranches - 1));
     return randomNumber;
+}
+
+bool SimuSHOT::sortByCptPassage(noeud* lhs, noeud* rhs) {
+    return (lhs->getCptPassage() < rhs->getCptPassage());
+}
+
+bool SimuSHOT::sortByAscendingScore(const std::tuple<int, int, float>& lhs, const std::tuple<int, int, float>& rhs) {
+    return (std::get<2>(lhs) < std::get<2>(rhs));
 }

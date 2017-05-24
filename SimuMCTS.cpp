@@ -63,17 +63,20 @@ std::vector<int> * SimuMCTS::clonerVector(std::vector<int> *chemin) {
 
 
 float SimuMCTS::calculScore() {
-    bool winning = true;
+   
+    float best = 0;
     float score = 0;
-        
     for (int i = 0; i < this->cheminSim->size(); i++) {
         if ((*this->cheminSim)[i] == 0) {
-            if (winning) {
-                score++;
+            score++;
+            if (score > best) {
+                best = score;
             }
         } else {
-            winning = false;
+            score = 0;
         }
     }
-    return score;
+    return best;
+
+
 }

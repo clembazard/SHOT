@@ -20,30 +20,34 @@
 #include "noeud.h"
 #include <tuple>
 #include <stdexcept>
+#include <math.h>
 
 class SimuSHOT : public Simulation {
 public:
     SimuSHOT(std::vector<int> *chemin);
     SimuSHOT(const SimuSHOT& orig);
     virtual ~SimuSHOT();
-    
+
     std::vector<int> *getCoupsPossibles();
     void jouerCoup(CoupSHOT coup);
     bool estTermine();
     float calculScore();
     void rollout();
-        
-    void simulerSHOT(noeud *arbre, int budget, int budgetUtilise);
-    
+    void simulerSHOT(noeud *arbre, int budget, int *budgetUtilise);
+
+
 private:
     std::vector<int> *cheminSim;
     std::vector<int> *coupsPossibles;
-    
+
     // Methods
     std::vector<int> *clonerVector(std::vector<int> *chemin);
     int randomInt(int min, int max);
     int getRandomDecision();
 
+    // tris
+    static bool sortByCptPassage(noeud *lhs, noeud *rhs);
+    static bool sortByAscendingScore(const std::tuple<int, int, float>& lhs, const std::tuple<int, int, float>& rhs);
 };
 
 #endif /* SIMUSHOT_H */

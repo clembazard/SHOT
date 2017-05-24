@@ -42,7 +42,6 @@ public:
     noeud *getMeilleurFils();
     decision *getDecision();
     noeud * expension();
-    void calculMoyenne();
     void retropropagation(int leScore);
     noeud * descente(SimuMCTS *simulation);
     SimuMCTS *rollout(SimuMCTS *simulation);
@@ -86,8 +85,6 @@ private:
     int randomInt(int min, int max);
 
     int getRandomDecision();
-
-    bool peutContinuerAGagnerDesPoints;
 };
 
 #endif /* NOEUD_H */
