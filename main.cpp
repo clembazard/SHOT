@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     // Initialisation de la graine aléatoire
     srand(time(NULL));
 
-    // execution du MCTS
+//     execution du MCTS
     TreeSearch mcts;    
     
     // execution du SHOT

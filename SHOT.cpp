@@ -22,6 +22,7 @@ SHOT::SHOT() {
     while (chemin->size() < Constantes::profondeurMax) {
         noeud *arbre = new noeud();
         
+        
         for (int i = 0; i < Constantes::budget; i++) {
             
 

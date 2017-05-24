@@ -11,6 +11,8 @@
  * Created on 22 mai 2017, 10:42
  */
 
+#include <algorithm>
+
 #include "SimuSHOT.h"
 #include "noeud.h"
 
@@ -83,43 +85,58 @@ std::vector<int> *SimuSHOT::getCoupsPossibles() {
 
 // todo : Simulation SHOT
 
-void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int budgetUtilise) {
-    if (this->estTermine()) {
-        budgetUtilise = 1;
-        arbre->retropropagation(this->calculScore());
-        return;
-    }
-    if (budget == 1) {
-        budgetUtilise = 1;
-        this->rollout();
-        arbre->retropropagation(arbre->calculScore(this->cheminSim));
-        return;
-    }
+void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
+//    if (this->estTermine()) {
+//        budgetUtilise = 1;
+//        arbre->retropropagation(this->calculScore());
+//        return;
+//    }
+//    if (budget == 1) {
+//        budgetUtilise = 1;
+//        this->rollout();
+//        arbre->retropropagation(arbre->calculScore());
+//        return;
+//    }
+//
+//    // 1. tentative de collection des paires (index, mouvements possibles)
+//
+//    std::vector<std::tuple<int, int>> S;
+//    for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+//        S.push_back(std::make_tuple(i, (*this->getCoupsPossibles())[i]));
+//    }
+//
+//    // 2. créer des emplacements pour les fils si necessaire
+//    if (arbre->getFils().size() == 0) {
+//        for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+//            arbre->expension();
+//        }
+//    }
+//
+//
+//    // 3. si pas assez de budget pour tous les fils, choisir les moins explorés
+//    if (budget < sizeof (S)) {
+//
+//
+//        // todo : faut faire le tri
+//        std::sort(arbre->getFils().begin(), arbre->getFils().end(), sortByCptPassage);
+//
+//        int budgetCpt = budget;
+//        for (int i = 0; i < arbre->getFils().size(); i++) {
+//            if (budgetCpt > 0) {
+//                this->jouerCoup(CoupSHOT(i));
+//                this->rollout();
+//                arbre->retropropagation(this->calculScore());
+//                budgetCpt --;
+//            }
+//        }
+//        budgetUtilise = budget;
+//        return ;
+//    }
+//    
+//    // 4) enough budget: distribute it using sequential halving,
+//    // so: while there is more than 1 possible move still eligible
 
-    // 1. tentative de collection des paires (index, mouvements possibles)
-    
-    std::vector<std::tuple<int, int>> S;
-   for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
-        S.push_back(std::make_tuple(i, (*this->getCoupsPossibles())[i]));
-    } 
 
-    // 2. créer des emplacements pour les fils si necessaire
-    if (arbre->getFils().size() == 0) {
-        for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
-            arbre->expension();
-        }
-    }
-
-
-    // 3. si pas assez de budget pour tous les fils, choisir les moins explorés
-    if (budget < sizeof(S)) {
-
-        // faut faire le tri
-        std::vector<CoupSHOT> coupsEligibles;
-        
-    }
-
-    
 }
 
 void SimuSHOT::rollout() {
@@ -135,4 +152,8 @@ int SimuSHOT::randomInt(int min, int max) {
 int SimuSHOT::getRandomDecision() {
     int randomNumber = randomInt(0, (Constantes::nbBranches - 1));
     return randomNumber;
+}
+
+bool SimuSHOT::sortByCptPassage(noeud* lhs, noeud* rhs) {
+    return (lhs->getCptPassage() < rhs->getCptPassage());
 }
