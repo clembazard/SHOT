@@ -166,9 +166,13 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
         std::sort(sortList.begin(), sortList.end(), sortByAscendingScore);
         int nbRemoved = floor(sortList.size() / 2);
         for (auto elem : sortList) {
-            std::vector<std::pair<int, int>> im = S[std::get<0>(elem)];
+            if (nbRemoved > 0) {
+                std::pair<int, int> im = S[std::get<0>(elem)];
+                im.first = -1; // fixme :voir si il faut pas faire un truc de pointeur avec ça
+                nbRemoved--;
+            }
         }
-
+        
     }
 
 
