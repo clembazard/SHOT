@@ -20,6 +20,7 @@
 #include "noeud.h"
 #include <tuple>
 #include <stdexcept>
+#include <math.h>
 
 class SimuSHOT : public Simulation {
 public:

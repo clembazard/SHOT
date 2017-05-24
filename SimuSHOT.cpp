@@ -86,55 +86,74 @@ std::vector<int> *SimuSHOT::getCoupsPossibles() {
 // todo : Simulation SHOT
 
 void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
-//    if (this->estTermine()) {
-//        budgetUtilise = 1;
-//        arbre->retropropagation(this->calculScore());
-//        return;
-//    }
-//    if (budget == 1) {
-//        budgetUtilise = 1;
-//        this->rollout();
-//        arbre->retropropagation(arbre->calculScore());
-//        return;
-//    }
-//
-//    // 1. tentative de collection des paires (index, mouvements possibles)
-//
-//    std::vector<std::tuple<int, int>> S;
-//    for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
-//        S.push_back(std::make_tuple(i, (*this->getCoupsPossibles())[i]));
-//    }
-//
-//    // 2. créer des emplacements pour les fils si necessaire
-//    if (arbre->getFils().size() == 0) {
-//        for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
-//            arbre->expension();
-//        }
-//    }
-//
-//
-//    // 3. si pas assez de budget pour tous les fils, choisir les moins explorés
-//    if (budget < sizeof (S)) {
-//
-//
-//        // todo : faut faire le tri
-//        std::sort(arbre->getFils().begin(), arbre->getFils().end(), sortByCptPassage);
-//
-//        int budgetCpt = budget;
-//        for (int i = 0; i < arbre->getFils().size(); i++) {
-//            if (budgetCpt > 0) {
-//                this->jouerCoup(CoupSHOT(i));
-//                this->rollout();
-//                arbre->retropropagation(this->calculScore());
-//                budgetCpt --;
-//            }
-//        }
-//        budgetUtilise = budget;
-//        return ;
-//    }
-//    
-//    // 4) enough budget: distribute it using sequential halving,
-//    // so: while there is more than 1 possible move still eligible
+    if (this->estTermine()) {
+        (*budgetUtilise) = 1;
+        arbre->retropropagation(this->calculScore());
+        return;
+    }
+    if (budget == 1) {
+        (*budgetUtilise) = 1;
+        this->rollout();
+        arbre->retropropagation(this->calculScore());
+        return;
+    }
+
+    // 1. tentative de collection des paires (index, mouvements possibles)
+
+    std::vector<std::pair<int, int>> S;
+    for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+        S.push_back(std::make_pair(i, (*this->getCoupsPossibles())[i]));
+    }
+
+    // 2. créer des emplacements pour les fils si necessaire
+    if (arbre->getFils().size() == 0) {
+        for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+            arbre->expension();
+        }
+    }
+
+
+    // 3. si pas assez de budget pour tous les fils, choisir les moins explorés
+    if (budget < sizeof (S)) {
+
+
+        // todo : faut faire le tri
+        std::sort(arbre->getFils().begin(), arbre->getFils().end(), sortByCptPassage);
+
+        int budgetCpt = budget;
+        for (int i = 0; i < arbre->getFils().size(); i++) {
+            if (budgetCpt > 0) {
+                this->jouerCoup(CoupSHOT(i));
+                this->rollout();
+                arbre->retropropagation(this->calculScore());
+                budgetCpt--;
+            }
+        }
+        (*budgetUtilise) = budget;
+        return;
+    }
+
+    // 4) enough budget: distribute it using sequential halving,
+    // so: while there is more than 1 possible move still eligible
+
+    std::vector<std::pair<int, int>> eligible = S; // <- deep copy of S
+    while (sizeof (eligible) > 1) {
+        //# 5) compute budget (+ previous budget) for sub branch
+        //#subBudget = max([1,
+        //#                 int((tree.cpt + budget) // (len(S) * math.ceil(math.log(len(tree.pmoves)))))])
+        int subBudget = std::max(1, (int) floor((budget / sizeof (S) * ceil(log(this->getCoupsPossibles()->size())))));
+
+        for (int i = 0; i < S.size(); i++) {
+            this->jouerCoup(CoupSHOT(S[i].second));
+            // 6) create real child node if slot still empty
+            if (arbre->getFils()[i] == nullptr) {
+                arbre->expension();
+            }
+            // 7) recurse on child only on budget not only expanded
+            // TODO correctedBudget = subBudget - tree.sibblings[i].cpt
+        }
+
+    }
 
 
 }

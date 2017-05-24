@@ -164,15 +164,6 @@ void noeud::simuler(std::vector<int> *chemin) {
 
 // Calcul du score 
 
-void noeud::calculMoyenne() {
-
-    if (this->decisionDuPere == 1 || this->pere->peutContinuerAGagnerDesPoints == false) {
-        this->moyenne = this->pere->moyenne;
-    } else {
-        this->moyenne = this->pere->moyenne + 1;
-    }
-}
-
 int noeud::calculScore(std::vector<int> *chemin) {
     float best = 0;
     float score = 0;
