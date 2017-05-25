@@ -19,17 +19,16 @@
 
 SHOT::SHOT() {
     std::vector<int> *chemin = new std::vector<int>;
-    int *recup = 0;
+    int *recup = nullptr;
+    int initialValue = 0;
+    recup = &initialValue;
 
     noeud *arbre = new noeud();
 
     SimuSHOT *simulation = new SimuSHOT(chemin);
 
     while (!simulation->estTermine()) {
-        //        int calcul = Constantes::budget;
-        int calcul = *recup;
-        std::cout << calcul << std::endl;
-        simulation->simulerSHOT(arbre, Constantes::budget, recup);
+        simulation->simulerSHOT(arbre, Constantes::budget + (*recup), recup);
         (*recup) = Constantes::budget - (*recup);
 
         int bestMove = -1;

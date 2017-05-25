@@ -86,7 +86,7 @@ std::vector<int> *SimuSHOT::getCoupsPossibles() {
 // todo : Simulation SHOT
 
 void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
-    std::cout << "ca rentre" << std::endl;
+    std::cout << "ca rentre" << budget << std::endl;
     if (this->estTermine()) {
         (*budgetUtilise) = 1;
         arbre->retropropagation(this->calculScore());
@@ -118,7 +118,7 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
     if (budget < sizeof (S)) {
 
 
-        // todo : faut faire le tri
+        // fixme : segmentation fault here
         std::sort(arbre->getFils().begin(), arbre->getFils().end(), sortByCptPassage);
 
         int budgetCpt = budget;
@@ -152,7 +152,9 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
             }
             // 7) recurse on child only on budget not only expanded
             // TODO correctedBudget = subBudget - tree.sibblings[i].cpt
-            int *childBudgetUsed = 0;
+            int *childBudgetUsed = nullptr;
+            int initValue = 0;
+            childBudgetUsed = &initValue;
             simulerSHOT(arbre->getFils()[i], subBudget, childBudgetUsed);
             (*budgetUtilise) += (*childBudgetUsed);
         }
