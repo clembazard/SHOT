@@ -86,6 +86,7 @@ std::vector<int> *SimuSHOT::getCoupsPossibles() {
 // todo : Simulation SHOT
 
 void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
+    std::cout << "ca rentre" << budget << std::endl;
     if (this->estTermine()) {
         (*budgetUtilise) = 1;
         arbre->retropropagation(this->calculScore());
@@ -98,13 +99,6 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
         return;
     }
 
-    // 1. tentative de collection des paires (index, mouvements possibles)
-
-    std::vector<std::pair<int, int>> S;
-    for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
-        S.push_back(std::make_pair(i, (*this->getCoupsPossibles())[i]));
-    }
-
     // 2. créer des emplacements pour les fils si necessaire
     if (arbre->getFils().size() == 0) {
         for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
@@ -112,45 +106,55 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
         }
     }
 
-
+    //
     // 3. si pas assez de budget pour tous les fils, choisir les moins explorés
-    if (budget < sizeof (S)) {
+    if (budget < this->getCoupsPossibles()->size()) {
 
 
         // todo : faut faire le tri
-        std::sort(arbre->getFils().begin(), arbre->getFils().end(), sortByCptPassage);
+        //        std::sort(arbre->getFils().begin(), arbre->getFils().end(), sortByCptPassage);
 
-        int budgetCpt = budget;
-        for (int i = 0; i < arbre->getFils().size(); i++) {
-            if (budgetCpt > 0) {
-                this->jouerCoup(CoupSHOT(i));
-                this->rollout();
-                arbre->retropropagation(this->calculScore());
-                budgetCpt--;
+        int index = 0;
+        int tmp = budget;
+
+        //        int budgetCpt = budget;
+        for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+            if (tmp > 0) {
+                if (arbre->getFils()[i]->getCptPassage() == 0) {
+                    this->jouerCoup(CoupSHOT(i));
+                    this->rollout();
+                    arbre->retropropagation(this->calculScore());
+                    tmp--;
+                }
             }
+            index++;
         }
-        (*budgetUtilise) = budget;
+        (*budgetUtilise) = budget - tmp;
         return;
     }
 
     // 4) enough budget: distribute it using sequential halving,
     // so: while there is more than 1 possible move still eligible
 
-    std::vector<std::pair<int, int>> eligible = S; // <- deep copy of S
-    while (sizeof (eligible) > 1) {
-        //# 5) compute budget (+ previous budget) for sub branch
-        //#subBudget = max([1,
-        //#                 int((tree.cpt + budget) // (len(S) * math.ceil(math.log(len(tree.pmoves)))))])
-        int subBudget = std::max(1, (int) floor((budget / sizeof (S) * ceil(log(this->getCoupsPossibles()->size())))));
+    std::vector<std::pair<int, int>> S;
+    for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+        S.push_back(std::make_pair(i, (*this->getCoupsPossibles())[i]));
+    }
+
+    std::sort(S.begin(), S.end(), sortByAscendingScore);
+
+    while (sizeof (S) > 1) {
+        int subBudget = std::max(1, (int) floor(((arbre->getCptPassage() + budget) / (S.size() * ceil(log(this->getCoupsPossibles()->size()))))));
 
         for (int i = 0; i < S.size(); i++) {
             this->jouerCoup(CoupSHOT(S[i].second));
-            // 6) create real child node if slot still empty
             if (arbre->getFils()[i] == nullptr) {
                 arbre->expension();
             }
-            // 7) recurse on child only on budget not only expanded
-            // TODO correctedBudget = subBudget - tree.sibblings[i].cpt
+
+            int correctedBudget = subBudget - arbre->getFils()[i]->getCptPassage();
+            correctedBudget = std::min(correctedBudget, (budget - (*budgetUtilise)));
+
             int *childBudgetUsed = 0;
             simulerSHOT(arbre->getFils()[i], subBudget, childBudgetUsed);
             (*budgetUtilise) += (*childBudgetUsed);
@@ -158,24 +162,12 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
         // 8) "remove" worst half of sibblings (sequential halving)
 
         // création de sortList
-        std::vector<std::tuple<int, int, float>> sortList;
-        for (auto elem : eligible) {
-            sortList.push_back(std::make_tuple(elem.first, elem.second, arbre->getFils()[elem.first]->getMoyenne()));
+        std::sort(S.begin(), S.end(), sortByDescendingScore);
+
+        for (int i = 0; i < floor(S.size() / 2); i++) {
+            S.pop_back();
         }
-        // tri de sortList
-        std::sort(sortList.begin(), sortList.end(), sortByAscendingScore);
-        int nbRemoved = floor(sortList.size() / 2);
-        for (auto elem : sortList) {
-            if (nbRemoved > 0) {
-                std::pair<int, int> im = S[std::get<0>(elem)];
-                im.first = -1; // fixme :voir si il faut pas faire un truc de pointeur avec ça
-                nbRemoved--;
-            }
-        }
-        
     }
-
-
 }
 
 void SimuSHOT::rollout() {
@@ -197,6 +189,20 @@ bool SimuSHOT::sortByCptPassage(noeud* lhs, noeud* rhs) {
     return (lhs->getCptPassage() < rhs->getCptPassage());
 }
 
-bool SimuSHOT::sortByAscendingScore(const std::tuple<int, int, float>& lhs, const std::tuple<int, int, float>& rhs) {
-    return (std::get<2>(lhs) < std::get<2>(rhs));
+bool SimuSHOT::sortByAscendingScore(const std::pair<int, int>& lhs, const std::pair<int, int>& rhs) {
+    return (lhs.second < rhs.second);
+}
+
+bool SimuSHOT::sortByDescendingScore(const std::pair<int, int>& lhs, const std::pair<int, int>& rhs) {
+    return (lhs.second > rhs.second);
+}
+
+std::vector<std::pair<int, int>> SimuSHOT::filtrerEligible(std::vector<std::pair<int, int>> paires) {
+    std::vector<std::pair<int, int>> result;
+    for (auto elem : paires) {
+        if (elem.first != -1) {
+            result.push_back(elem);
+        }
+    }
+    return result;
 }
