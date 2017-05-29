@@ -49,7 +49,8 @@ private:
     
     // tris
     static bool sortByCptPassage(noeud *lhs, noeud *rhs);
-    static bool sortByAscendingScore(const std::tuple<int, int, float>& lhs, const std::tuple<int, int, float>& rhs);
+    static bool sortByAscendingScore(const std::pair<int, int>& lhs, const std::pair<int, int>& rhs);
+    static bool sortByDescendingScore(const std::pair<int, int>& lhs, const std::pair<int, int>& rhs);
 };
 
 #endif /* SIMUSHOT_H */
