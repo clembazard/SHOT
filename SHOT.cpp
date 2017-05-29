@@ -19,7 +19,7 @@
 
 SHOT::SHOT() {
     std::vector<int> *chemin = new std::vector<int>;
-    int *recup = NULL;
+    int *recup = nullptr;
     int recupInt = 0;
     recup = &recupInt;
 

@@ -86,7 +86,7 @@ std::vector<int> *SimuSHOT::getCoupsPossibles() {
 // todo : Simulation SHOT
 
 void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
-    std::cout << "ca rentre" << std::endl;
+    std::cout << "ca rentre" << budget << std::endl;
     if (this->estTermine()) {
         (*budgetUtilise) = 1;
         arbre->retropropagation(this->calculScore());
