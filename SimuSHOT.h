@@ -29,6 +29,7 @@ public:
     virtual ~SimuSHOT();
 
     std::vector<int> *getCoupsPossibles();
+    std::vector<int> *getCheminSim();
     void jouerCoup(CoupSHOT coup);
     bool estTermine();
     float calculScore();
@@ -37,6 +38,7 @@ public:
 
 
 private:
+//    std::vector<int> *cheminOrigine;
     std::vector<int> *cheminSim;
     std::vector<int> *coupsPossibles;
 

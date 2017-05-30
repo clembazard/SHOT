@@ -14,7 +14,12 @@
         </group>
         <group>
             <file>file:/etudiants/cremond/NetBeansProjects/SHOT/main.cpp</file>
+            <file>file:/etudiants/cremond/NetBeansProjects/SHOT/TreeSearch.cpp</file>
+            <file>file:/etudiants/cremond/NetBeansProjects/SHOT/TreeSearch.h</file>
+            <file>file:/etudiants/cremond/NetBeansProjects/SHOT/Constantes.h</file>
             <file>file:/etudiants/cremond/NetBeansProjects/SHOT/SHOT.cpp</file>
+            <file>file:/etudiants/cremond/NetBeansProjects/SHOT/SHOT.h</file>
+            <file>file:/etudiants/cremond/NetBeansProjects/SHOT/noeud.cpp</file>
             <file>file:/etudiants/cremond/NetBeansProjects/SHOT/SimuSHOT.h</file>
             <file>file:/etudiants/cremond/NetBeansProjects/SHOT/SimuSHOT.cpp</file>
         </group>

@@ -55,6 +55,7 @@ public:
     noeud * getPere();
     std::vector<noeud*> getFils();
     float getMoyenne();
+    std::string getName();
 
     // setter
     void setCptPassage(int cptPassage);
@@ -63,6 +64,10 @@ public:
     void setFils(std::vector<noeud*> fils);
     void setMoyenne(float moyenne);
 
+    std::string toString(int depth, int tabs); 
+    std::string toLatexAux(std::vector<int> *width, int depth, std::string name, std::string father); 
+    std::string toLatex(); 
+    
 private:
 
     std::vector<int> *clonerVector(std::vector<int> *chemin);
@@ -85,6 +90,8 @@ private:
     int randomInt(int min, int max);
 
     int getRandomDecision();
+    
+    std::string name;
 };
 
 #endif /* NOEUD_H */
