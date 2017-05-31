@@ -24,17 +24,20 @@ using namespace std;
  * 
  */
 
-
-
 int main(int argc, char** argv) {
     // Initialisation de la graine aléatoire
     srand(time(NULL));
 
-//     execution du MCTS
-//    TreeSearch mcts;    
-    
+    //     execution du MCTS
+    //    TreeSearch mcts;    
+
     // execution du SHOT
     SHOT shot;
+
+    //    arbreEnDur();
     return 0;
 }
 
+void arbreEnDur() {
+
+}

@@ -28,8 +28,8 @@ public:
     SimuSHOT(const SimuSHOT& orig);
     virtual ~SimuSHOT();
 
-    std::vector<int> *getCoupsPossibles();
-    std::vector<int> *getCheminSim();
+    std::vector<int> getCoupsPossibles();
+    std::vector<int> getCheminSim();
     void jouerCoup(CoupSHOT coup);
     bool estTermine();
     float calculScore();
@@ -39,11 +39,11 @@ public:
 
 private:
 //    std::vector<int> *cheminOrigine;
-    std::vector<int> *cheminSim;
-    std::vector<int> *coupsPossibles;
+    std::vector<int> cheminSim;
+//    std::vector<int> *coupsPossibles;
 
     // Methods
-    std::vector<int> *clonerVector(std::vector<int> *chemin);
+    std::vector<int> clonerVector(std::vector<int> *chemin);
     int randomInt(int min, int max);
     int getRandomDecision();
 
