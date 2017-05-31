@@ -23,6 +23,7 @@ SimuSHOT::SimuSHOT(std::vector<int> *chemin) {
 
     // cloner chemin
     this->cheminSim = clonerVector(chemin);
+    this->cheminOrigine = clonerVector(chemin);
     // init coupsPossibles
 //    for (int i = 0; i < Constantes::nbBranches; i++) {
 //        this->coupsPossibles.push_back(i);
@@ -120,10 +121,12 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
         for (int i = 0; i < this->getCoupsPossibles().size(); i++) {
             if (tmp > 0) {
                 if (arbre->getFils()[i]->getCptPassage() == 0) {
-                    //                    this->cheminSim = clonerVector(cheminOrigine);
+//                                        this->cheminSim = clonerVector(cheminOrigine);
+                    
                     this->jouerCoup(CoupSHOT(i));
                     this->rollout();
                     arbre->retropropagation(this->calculScore());
+                    this->cheminSim.pop_back();
                     tmp--;
                 }
             }
@@ -149,6 +152,7 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
 
         for (int i = 0; i < S.size(); i++) {
             //            this->cheminSim = clonerVector(cheminOrigine);
+            
             this->jouerCoup(CoupSHOT(S[i].second));
             if (arbre->getFils()[i] == nullptr) {
                 arbre->expension();
@@ -164,6 +168,7 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
             simulerSHOT(arbre->getFils()[i], subBudget, childBudgetUsed);
             (*budgetUtilise) += (*childBudgetUsed);
 //            delete childBudgetUsed;
+            this->cheminSim.pop_back();
         }
         // 8) "remove" worst half of sibblings (sequential halving)
 

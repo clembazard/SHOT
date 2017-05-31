@@ -38,7 +38,7 @@ public:
 
 
 private:
-//    std::vector<int> *cheminOrigine;
+    std::vector<int> cheminOrigine;
     std::vector<int> cheminSim;
 //    std::vector<int> *coupsPossibles;
 
