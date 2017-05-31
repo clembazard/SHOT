@@ -40,7 +40,6 @@ public:
 private:
     std::vector<int> cheminOrigine;
     std::vector<int> cheminSim;
-//    std::vector<int> *coupsPossibles;
 
     // Methods
     std::vector<int> clonerVector(std::vector<int> *chemin);
@@ -48,7 +47,7 @@ private:
     int getRandomDecision();
 
     std::vector<std::pair<int, int>> filtrerEligible(std::vector<std::pair<int, int>> paires);
-    
+
     // tris
     static bool sortByCptPassage(noeud *lhs, noeud *rhs);
     static bool sortByAscendingScore(const std::pair<int, int>& lhs, const std::pair<int, int>& rhs);

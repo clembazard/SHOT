@@ -44,7 +44,7 @@ SHOT::SHOT() {
         }
 
 
-//        std::cout << arbre->toString(2, 0) << std::endl;
+        //        std::cout << arbre->toString(2, 0) << std::endl;
 
 
         chemin->push_back(bestMove);
@@ -60,7 +60,7 @@ SHOT::SHOT() {
     }
 
     SimuSHOT totodelTata(chemin);
-    std::cout << "Score final : " << totodelTata.calculScore() << std::endl;
+    std::cout << "Score final : " << totodelTata.calculScore() << " , reste : " << recup <<  std::endl;
     recup = new int;
     delete recup;
     delete chemin;

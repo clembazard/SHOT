@@ -48,7 +48,6 @@ TreeSearch::TreeSearch() {
 
         // juste comparer les 2 fils
 
-
         int indexMeilleurFils = -1;
         int meilleursCptPassage = 0;
         for (int i = 0; i < arbre->getFils().size(); i++) {
@@ -75,6 +74,8 @@ TreeSearch::TreeSearch() {
         }
         std::cout << "]" << std::endl;
 
+        std::cout << arbre->toString(Constantes::profondeurMax, 0) << std::endl;
+        
         delete arbre;
     }
 

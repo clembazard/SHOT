@@ -168,7 +168,7 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
             simulerSHOT(arbre->getFils()[i], subBudget, childBudgetUsed);
             (*budgetUtilise) += (*childBudgetUsed);
 //            delete childBudgetUsed;
-            this->cheminSim.pop_back();
+//            this->cheminSim.pop_back();
         }
         // 8) "remove" worst half of sibblings (sequential halving)
 

@@ -20,10 +20,7 @@ noeud::noeud() {
     this->moyenne = 0;
     this->cptPassage = 0;
     this->pere = nullptr;
-    this->name = "";
-    if (this->pere != nullptr) {
-        this->name = this->pere->getName() + std::to_string(this->decisionDuPere);
-    }
+    this->name = "";    
 }
 
 noeud::noeud(const noeud& orig) {
@@ -36,6 +33,12 @@ noeud::~noeud() {
     //    delete this->pere;
 }
 
+void noeud::nameIt(){
+    if (this->pere != nullptr) {
+        this->name = this->pere->getName() + std::to_string(this->decisionDuPere);
+    }
+}
+
 noeud * noeud::expension() {
     // Si pas de fils, ajouter fils gauche
     // sinon ajouter fils droit
@@ -46,7 +49,8 @@ noeud * noeud::expension() {
     noeud *n = new noeud();
     n->setDecisionPere(index);
     n->setPere(this);
-    this->fils.push_back(n);
+    n->nameIt();
+    this->fils.push_back(n);    
     //    cheminSim->push_back(index);
     return n;
 }
