@@ -13,12 +13,19 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <fstream>
 #include "noeud.h"
 #include "Constantes.h"
 #include "TreeSearch.h"
 
 TreeSearch::TreeSearch() {
-//    bool finDePartie = false;
+    //    bool finDePartie = false;
+    //    std::ofstream myfile;
+    //    myfile.open("MTCSk01.txt");
+    //
+    //    for (int k = 0; k < 1000; k++) {
+
+
 
     std::vector<int> *chemin = new std::vector<int>;
 
@@ -74,7 +81,10 @@ TreeSearch::TreeSearch() {
     // afficher le score réel
     noeud noeudDeCalcul;
     std::cout << "score du jeu : " << noeudDeCalcul.calculScore(chemin) << std::endl;
+    //        myfile << k << " " << noeudDeCalcul.calculScore(chemin) << "\n";
     delete chemin;
+    //    }
+    //    myfile.close();
 }
 
 TreeSearch::TreeSearch(const TreeSearch& orig) {

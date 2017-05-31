@@ -17,6 +17,7 @@
 #include "noeud.h"
 
 SimuSHOT::SimuSHOT(std::vector<int> *chemin) {
+    //    this->cheminOrigine = chemin;
     this->cheminSim = nullptr;
     this->coupsPossibles = new std::vector<int>;
 
@@ -26,7 +27,6 @@ SimuSHOT::SimuSHOT(std::vector<int> *chemin) {
     for (int i = 0; i < Constantes::nbBranches; i++) {
         this->coupsPossibles->push_back(i);
     }
-
 }
 
 SimuSHOT::SimuSHOT(const SimuSHOT& orig) {
@@ -39,12 +39,11 @@ SimuSHOT::~SimuSHOT() {
 
 void SimuSHOT::jouerCoup(CoupSHOT coup) {
     this->cheminSim->push_back(coup.getValeur());
-    // suppression du coup choisi, en général ce sera le premier de la liste
-    //    this->cheminSim->erase(this->cheminSim->begin());
 }
 
 bool SimuSHOT::estTermine() {
-    return (this->cheminSim->size() == Constantes::profondeurMax) ? true : false;
+    std::cout << this->cheminSim->size() << std::endl;
+    return (this->cheminSim->size() == Constantes::profondeurMax);
 }
 
 std::vector<int> * SimuSHOT::clonerVector(std::vector<int> *chemin) {
@@ -94,6 +93,7 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
     }
     if (budget == 1) {
         (*budgetUtilise) = 1;
+        //        this->cheminSim = clonerVector(cheminOrigine);
         this->rollout();
         arbre->retropropagation(this->calculScore());
         return;
@@ -121,6 +121,7 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
         for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
             if (tmp > 0) {
                 if (arbre->getFils()[i]->getCptPassage() == 0) {
+                    //                    this->cheminSim = clonerVector(cheminOrigine);
                     this->jouerCoup(CoupSHOT(i));
                     this->rollout();
                     arbre->retropropagation(this->calculScore());
@@ -143,10 +144,12 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
 
     std::sort(S.begin(), S.end(), sortByAscendingScore);
 
-    while (sizeof (S) > 1) {
-        int subBudget = std::max(1, (int) floor(((arbre->getCptPassage() + budget) / (S.size() * ceil(log(this->getCoupsPossibles()->size()))))));
+    while (S.size() > 1) {
+//        int subBudget = std::max(1, (int) ((arbre->getCptPassage() + budget) / (S.size() * ceil(log(this->getCoupsPossibles()->size())))));
+        int subBudget = std::max(1, (int) ((arbre->getCptPassage() + budget) / (S.size() * ceil((log(this->getCoupsPossibles()->size()) / log(2))))));
 
         for (int i = 0; i < S.size(); i++) {
+            //            this->cheminSim = clonerVector(cheminOrigine);
             this->jouerCoup(CoupSHOT(S[i].second));
             if (arbre->getFils()[i] == nullptr) {
                 arbre->expension();
@@ -155,8 +158,11 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
             int correctedBudget = subBudget - arbre->getFils()[i]->getCptPassage();
             correctedBudget = std::min(correctedBudget, (budget - (*budgetUtilise)));
 
-            int *childBudgetUsed = 0;
-            simulerSHOT(arbre->getFils()[i], subBudget, childBudgetUsed);
+            int *childBudgetUsed = nullptr;
+            int initValue = 0;
+            childBudgetUsed = &initValue;
+            SimuSHOT simulation(this->cheminSim);
+            simulation.simulerSHOT(arbre->getFils()[i], subBudget, childBudgetUsed);
             (*budgetUtilise) += (*childBudgetUsed);
         }
         // 8) "remove" worst half of sibblings (sequential halving)
@@ -205,4 +211,8 @@ std::vector<std::pair<int, int>> SimuSHOT::filtrerEligible(std::vector<std::pair
         }
     }
     return result;
+}
+
+std::vector<int> *SimuSHOT::getCheminSim(){
+    return this->cheminSim;
 }

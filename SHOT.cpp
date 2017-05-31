@@ -25,30 +25,36 @@ SHOT::SHOT() {
 
     noeud *arbre = new noeud();
 
-    SimuSHOT *simulation = new SimuSHOT(chemin);
 
-    while (!simulation->estTermine()) {
-        simulation->simulerSHOT(arbre, (Constantes::budget + (*recup)), recup);
-        (*recup) = Constantes::budget - (*recup);
+    while (chemin->size() < Constantes::profondeurMax) {
+        SimuSHOT *simulation = new SimuSHOT(chemin);
+//        while (!simulation->estTermine()) {
+            simulation->simulerSHOT(arbre, (Constantes::budget + (*recup)), recup);
+            (*recup) = Constantes::budget - (*recup);
 
-        int bestMove = -1;
-        float bestScore = -1;
-        noeud *bestSon = nullptr;
+            int bestMove = -1;
+            float bestScore = -1;
+            noeud *bestSon = nullptr;
 
-        for (noeud *fils : arbre->getFils()) {
-            if (fils->getMoyenne() > bestScore) {
-                bestScore = fils->getMoyenne();
-                bestMove = fils->getDecisionPere();
-                bestSon = fils;
+            for (noeud *fils : arbre->getFils()) {
+                if (fils->getMoyenne() > bestScore) {
+                    bestScore = fils->getMoyenne();
+                    bestMove = fils->getDecisionPere();
+                    bestSon = fils;
+                }
             }
-        }
 
-        chemin->push_back(bestMove);
-        arbre = bestSon;
+            chemin->push_back(bestMove);
+            arbre = bestSon;
 
+            for (int i = 0; i < chemin->size(); i++) {
+                std::cout << (*chemin)[i];
+            }
+//        }
+        delete simulation;
+//        std::cout << "C'est fini" << std::endl;
     }
     delete chemin;
-    delete simulation;
 }
 
 SHOT::SHOT(const SHOT& orig) {
