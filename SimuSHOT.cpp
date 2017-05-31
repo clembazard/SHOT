@@ -18,65 +18,64 @@
 
 SimuSHOT::SimuSHOT(std::vector<int> *chemin) {
     //    this->cheminOrigine = chemin;
-    this->cheminSim = nullptr;
-    this->coupsPossibles = new std::vector<int>;
+//    this->cheminSim = nullptr;
+//    this->coupsPossibles = new std::vector<int>;
 
     // cloner chemin
     this->cheminSim = clonerVector(chemin);
     // init coupsPossibles
-    for (int i = 0; i < Constantes::nbBranches; i++) {
-        this->coupsPossibles->push_back(i);
-    }
+//    for (int i = 0; i < Constantes::nbBranches; i++) {
+//        this->coupsPossibles.push_back(i);
+//    }
 }
 
 SimuSHOT::SimuSHOT(const SimuSHOT& orig) {
 }
 
 SimuSHOT::~SimuSHOT() {
-    delete cheminSim;
-    delete coupsPossibles;
+//    delete cheminSim;
+//    delete coupsPossibles;
 }
 
 void SimuSHOT::jouerCoup(CoupSHOT coup) {
-    this->cheminSim->push_back(coup.getValeur());
+    this->cheminSim.push_back(coup.getValeur());
 }
 
 bool SimuSHOT::estTermine() {
-    std::cout << this->cheminSim->size() << std::endl;
-    return (this->cheminSim->size() == Constantes::profondeurMax);
+    // std::cout << this->cheminSim->size() << std::endl;
+    return !(this->cheminSim.size() < Constantes::profondeurMax);
 }
 
-std::vector<int> * SimuSHOT::clonerVector(std::vector<int> *chemin) {
-    std::vector<int> *v = new std::vector<int>;
+std::vector<int> SimuSHOT::clonerVector(std::vector<int> *chemin) {
+    std::vector<int> v;
     for (int i = 0; i < chemin->size(); i++) {
         int value = (*chemin)[i];
-        v->push_back(value);
+        v.push_back(value);
     }
     return v;
-
 }
 
 float SimuSHOT::calculScore() {
-    bool winning = true;
+    float best = 0;
     float score = 0;
-
-    for (int i = 0; i < this->cheminSim->size(); i++) {
-        if ((*this->cheminSim)[i] == 0) {
-            if (winning) {
-                score++;
+    for (int i = 0; i < this->cheminSim.size(); i++) {
+        if (this->cheminSim[i] == 0) {
+            score++;
+            if (score > best) {
+                best = score;
             }
         } else {
-            winning = false;
+            score = 0;
         }
     }
-    return score;
+    return best;
 }
 
-std::vector<int> *SimuSHOT::getCoupsPossibles() {
-    std::vector<int> *v = new std::vector<int>;
-    if (this->cheminSim->size() < Constantes::profondeurMax) {
+std::vector<int> SimuSHOT::getCoupsPossibles() {
+    std::vector<int> v ;
+    if (this->cheminSim.size() < Constantes::profondeurMax) {
         for (int i = 0; i < Constantes::nbBranches; i++) {
-            v->push_back(i);
+            v.push_back(i);
         }
     }
     return v;
@@ -85,7 +84,7 @@ std::vector<int> *SimuSHOT::getCoupsPossibles() {
 // todo : Simulation SHOT
 
 void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
-    std::cout << "ca rentre" << budget << std::endl;
+    //    std::cout << "ca rentre : " << budget << std::endl;
     if (this->estTermine()) {
         (*budgetUtilise) = 1;
         arbre->retropropagation(this->calculScore());
@@ -101,14 +100,14 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
 
     // 2. créer des emplacements pour les fils si necessaire
     if (arbre->getFils().size() == 0) {
-        for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+        for (int i = 0; i < this->getCoupsPossibles().size(); i++) {
             arbre->expension();
         }
     }
 
     //
     // 3. si pas assez de budget pour tous les fils, choisir les moins explorés
-    if (budget < this->getCoupsPossibles()->size()) {
+    if (budget < this->getCoupsPossibles().size()) {
 
 
         // todo : faut faire le tri
@@ -118,7 +117,7 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
         int tmp = budget;
 
         //        int budgetCpt = budget;
-        for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
+        for (int i = 0; i < this->getCoupsPossibles().size(); i++) {
             if (tmp > 0) {
                 if (arbre->getFils()[i]->getCptPassage() == 0) {
                     //                    this->cheminSim = clonerVector(cheminOrigine);
@@ -138,15 +137,15 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
     // so: while there is more than 1 possible move still eligible
 
     std::vector<std::pair<int, int>> S;
-    for (int i = 0; i < this->getCoupsPossibles()->size(); i++) {
-        S.push_back(std::make_pair(i, (*this->getCoupsPossibles())[i]));
+    for (int i = 0; i < this->getCoupsPossibles().size(); i++) {
+        S.push_back(std::make_pair(i, this->getCoupsPossibles()[i]));
     }
 
     std::sort(S.begin(), S.end(), sortByAscendingScore);
 
     while (S.size() > 1) {
-//        int subBudget = std::max(1, (int) ((arbre->getCptPassage() + budget) / (S.size() * ceil(log(this->getCoupsPossibles()->size())))));
-        int subBudget = std::max(1, (int) ((arbre->getCptPassage() + budget) / (S.size() * ceil((log(this->getCoupsPossibles()->size()) / log(2))))));
+        //        int subBudget = std::max(1, (int) ((arbre->getCptPassage() + budget) / (S.size() * ceil(log(this->getCoupsPossibles()->size())))));
+        int subBudget = std::max(1, (int) ((arbre->getCptPassage() + budget) / (S.size() * ceil((log(this->getCoupsPossibles().size()) / log(2))))));
 
         for (int i = 0; i < S.size(); i++) {
             //            this->cheminSim = clonerVector(cheminOrigine);
@@ -161,16 +160,17 @@ void SimuSHOT::simulerSHOT(noeud* arbre, int budget, int *budgetUtilise) {
             int *childBudgetUsed = nullptr;
             int initValue = 0;
             childBudgetUsed = &initValue;
-            SimuSHOT simulation(this->cheminSim);
-            simulation.simulerSHOT(arbre->getFils()[i], subBudget, childBudgetUsed);
+
+            simulerSHOT(arbre->getFils()[i], subBudget, childBudgetUsed);
             (*budgetUtilise) += (*childBudgetUsed);
+//            delete childBudgetUsed;
         }
         // 8) "remove" worst half of sibblings (sequential halving)
 
         // création de sortList
         std::sort(S.begin(), S.end(), sortByDescendingScore);
 
-        for (int i = 0; i < floor(S.size() / 2); i++) {
+        for (int i = 0; i < (int)(S.size() / 2); i++) {
             S.pop_back();
         }
     }
@@ -213,6 +213,6 @@ std::vector<std::pair<int, int>> SimuSHOT::filtrerEligible(std::vector<std::pair
     return result;
 }
 
-std::vector<int> *SimuSHOT::getCheminSim(){
+std::vector<int> SimuSHOT::getCheminSim() {
     return this->cheminSim;
 }
