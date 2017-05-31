@@ -44,7 +44,7 @@ SHOT::SHOT() {
         }
 
 
-        std::cout << arbre->toString(2, 0) << std::endl;
+//        std::cout << arbre->toString(2, 0) << std::endl;
 
 
         chemin->push_back(bestMove);
