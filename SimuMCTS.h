@@ -28,7 +28,7 @@ public:
     void jouerCoup(CoupMCTS coup);
     bool estTermine();
     float calculScore();
-
+    
 private:
 
     std::vector<int> *clonerVector(std::vector<int> *chemin);

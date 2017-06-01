@@ -20,7 +20,7 @@ noeud::noeud() {
     this->moyenne = 0;
     this->cptPassage = 0;
     this->pere = nullptr;
-    this->name = "";    
+    this->name = "";
 }
 
 noeud::noeud(const noeud& orig) {
@@ -33,7 +33,7 @@ noeud::~noeud() {
     //    delete this->pere;
 }
 
-void noeud::nameIt(){
+void noeud::nameIt() {
     if (this->pere != nullptr) {
         this->name = this->pere->getName() + std::to_string(this->decisionDuPere);
     }
@@ -50,7 +50,7 @@ noeud * noeud::expension() {
     n->setDecisionPere(index);
     n->setPere(this);
     n->nameIt();
-    this->fils.push_back(n);    
+    this->fils.push_back(n);
     //    cheminSim->push_back(index);
     return n;
 }
@@ -161,7 +161,7 @@ void noeud::simuler(std::vector<int> *chemin) {
     // descente 
     noeud *n = this->descente(simulation);
     // si pas déjà en fin de partie (profMax) alors n est à étendre
-    if (chemin->size() < Constantes::profondeurMax) {
+    if (!simulation->estTermine()) {
         n = n->expension();
         //        cheminSim = n->rollout(cheminSim); // terminer la partie aléatoirement, score de n = résultat de cette partie
         simulation = n->rollout(simulation); // terminer la partie aléatoirement, score de n = résultat de cette partie
@@ -221,18 +221,19 @@ void noeud::afficherVector(std::vector<int> *chemin) {
 }
 
 std::string noeud::toString(int depth, int tabs) {
-    std::string s = "\n";
+    std::stringstream s;
+    s << "\n";
     if (depth == 0) {
-        return s;
+        return s.str();
     }
     for (int i = 0; i < tabs; i++) {
-        s += "\t";
-        s += "#" + std::to_string(this->cptPassage) + "/" + this->name;
+        s << "\t";
     }
+        s << "#" << std::to_string(this->cptPassage) << "/" << this->name;
     for (auto elem : this->fils) {
-        s += elem->toString(depth - 1, tabs + 1);
+        s << elem->toString(depth - 1, tabs + 1);
     }
-    return s;
+    return s.str();
 }
 
 std::string noeud::getName() {
