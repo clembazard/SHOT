@@ -1,0 +1,42 @@
+\begin{center}
+\begin{tikzpicture}[xscale=1,yscale=1]
+\tikzstyle{fleche}=[->,>=latex,thick]
+\tikzstyle{noeud}=[fill=white,circle,draw]
+\tikzstyle{etiquette}=[midway,fill=white,draw]
+\def\DistanceInterNiveaux{3}
+\def\DistanceInterFeuilles{2}
+\def\NiveauA{(-0)*\DistanceInterNiveaux}
+\def\NiveauB{(-1)*\DistanceInterNiveaux}
+\def\NiveauC{(-2)*\DistanceInterNiveaux}
+\def\NiveauD{(-3)*\DistanceInterNiveaux}
+\def\NiveauE{(-4)*\DistanceInterNiveaux}
+\def\NiveauF{(-5)*\DistanceInterNiveaux}
+\def\NiveauG{(-6)*\DistanceInterNiveaux}
+\def\NiveauH{(-7)*\DistanceInterNiveaux}
+\def\NiveauI{(-8)*\DistanceInterNiveaux}
+\def\NiveauJ{(-9)*\DistanceInterNiveaux}
+\def\NiveauK{(-10)*\DistanceInterNiveaux}
+\def\NiveauL{(-11)*\DistanceInterNiveaux}
+\def\NiveauM{(-12)*\DistanceInterNiveaux}
+\def\NiveauN{(-13)*\DistanceInterNiveaux}
+\def\NiveauO{(-14)*\DistanceInterNiveaux}
+\def\NiveauP{(-15)*\DistanceInterNiveaux}
+\def\NiveauQ{(-16)*\DistanceInterNiveaux}
+\def\NiveauR{(-17)*\DistanceInterNiveaux}
+\def\NiveauS{(-18)*\DistanceInterNiveaux}
+\def\NiveauT{(-19)*\DistanceInterNiveaux}
+\def\NiveauU{(-20)*\DistanceInterNiveaux}
+\def\NiveauV{(-21)*\DistanceInterNiveaux}
+\def\NiveauW{(-22)*\DistanceInterNiveaux}
+\def\NiveauX{(-23)*\DistanceInterNiveaux}
+\def\NiveauY{(-24)*\DistanceInterNiveaux}
+\def\NiveauZ{(-25)*\DistanceInterNiveaux}
+\def\InterFeuilles{(1)*\DistanceInterFeuilles}
+\node[noeud] (root) at ({(0)*\InterFeuilles},{\NiveauA}) {128/53.9844};
+\node[noeud] (root0) at ({(0)*\InterFeuilles},{\NiveauB}) {126/54};
+\draw[fleche] (root)--(root0) node[etiquette] {$0$};
+\node[noeud] (root1) at ({(1)*\InterFeuilles},{\NiveauB}) {2/53};
+\draw[fleche] (root)--(root1) node[etiquette] {$1$};
+\end{tikzpicture}
+\end{center}
+\rule[0.5ex]{\textwidth}{0.1mm}

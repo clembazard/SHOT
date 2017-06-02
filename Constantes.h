@@ -22,7 +22,7 @@ public:
     static constexpr double k = 0.3; // 0.1 | 0.3 | 1 -> 0.3 semmble plus approprié pour une prodondeur max de 32 et un budget de 50
 
     Constantes();
-    Constantes(const Constantes& orig);
+    Constantes(const Constantes& orig); 
     virtual ~Constantes();
 private:
 
