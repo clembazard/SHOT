@@ -74,8 +74,13 @@ TreeSearch::TreeSearch() {
         }
         std::cout << "]" << std::endl;
 
-        std::cout << arbre->toString(Constantes::profondeurMax, 0) << std::endl;
-        
+        //        std::cout << arbre->toString(Constantes::profondeurMax, 0) << std::endl;
+
+
+        std::ofstream myfile;
+        myfile.open("treeLaTex.txt");
+        myfile << arbre->toLatex();
+        myfile.close();
         delete arbre;
     }
 

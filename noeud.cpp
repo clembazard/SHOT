@@ -229,7 +229,7 @@ std::string noeud::toString(int depth, int tabs) {
     for (int i = 0; i < tabs; i++) {
         s << "\t";
     }
-        s << "#" << std::to_string(this->cptPassage) << "/" << this->name;
+    s << "#" << std::to_string(this->cptPassage) << "/" << this->name;
     for (auto elem : this->fils) {
         s << elem->toString(depth - 1, tabs + 1);
     }
@@ -245,14 +245,14 @@ std::string noeud::toLatexAux(std::vector<int> *width, int depth, std::string na
     if (width->size() <= depth) {
         width->push_back(0);
     }
-    s << "\\node[noeud] (" << name << ") at ({(" << (*width)[0] << ")*\\InterFeuilles},";
-    s << "{\\Niveau" << (char) (((int) 'A') + depth) << "}) {" << this->cptPassage << "/" << (int) (this->moyenne * 100 / 100) << "};\n";
-    (*width)[0]++;
+    s << "\\node[noeud] (" << name << ") at ({(" << (*width)[depth] << ")*\\InterFeuilles},";
+    s << "{\\Niveau" << (char) (((int) 'A') + depth) << "}) {" << this->cptPassage << "/" << ((this->moyenne * 100) / 100) << "};\n";
+    (*width)[depth]++;
     if (father != "") {
         s << "\\draw[fleche] (" << father << ")--(" << name << ") node[etiquette] {$" << this->decisionDuPere << "$};\n";
     }
     for (int i = 0; i < this->fils.size(); i++) {
-        s << this->fils[i]->toLatexAux(width, depth + 1, name + std::to_string(i), name);
+        s << this->fils[i]->toLatexAux(width, (depth + 1), (name + std::to_string(i)), name);
     }
     return s.str();
 }
@@ -262,21 +262,22 @@ std::string noeud::toLatex() {
     s << "\\begin{center}\n";
     s << "\\begin{tikzpicture}[xscale=1,yscale=1]\n";
     s << "\\tikzstyle{fleche}=[->,>=latex,thick]\n";
-    s << "\\tikzstyle{noeud}=[fill=yellow,circle,draw]\n";
+    s << "\\tikzstyle{noeud}=[fill=white,circle,draw]\n";
     s << "\\tikzstyle{etiquette}=[midway,fill=white,draw]\n";
     //    """% Dimensions (MODIFIABLES)"""
     s << "\\def\\DistanceInterNiveaux{3}\n";
+    s << "\\def\\DistanceInterFeuilles{2}\n";
     for (int numLetter = 0; numLetter < 26; numLetter++) {
         s << "\\def\\Niveau" << (char) (((int) 'A') + numLetter);
-        s << "{(-" << numLetter << ")*\\DistanceNiveaux}\n";
+        s << "{(-" << numLetter << ")*\\DistanceInterNiveaux}\n";
     }
     s << "\\def\\InterFeuilles{(1)*\\DistanceInterFeuilles}\n";
 
     std::vector<int> *width = new std::vector<int>;
 
     s << this->toLatexAux(width, 0, "root", "");
-    s << "\\end{tikepicture}\n";
-    s << "\\end{center}\\n";
+    s << "\\end{tikzpicture}\n";
+    s << "\\end{center}\n";
     s << "\\rule[0.5ex]{\\textwidth}{0.1mm}\n";
 
     return s.str();

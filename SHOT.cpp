@@ -60,7 +60,7 @@ SHOT::SHOT() {
     }
 
     SimuSHOT totodelTata(chemin);
-    std::cout << "Score final : " << totodelTata.calculScore() << " , reste : " << recup <<  std::endl;
+    std::cout << "Score final : " << totodelTata.calculScore() << " , reste : " << (*recup) <<  std::endl;
     recup = new int;
     delete recup;
     delete chemin;

@@ -28,11 +28,14 @@ int main(int argc, char** argv) {
     // Initialisation de la graine aléatoire
     srand(time(NULL));
 
+    std::cout <<"____________________________Execution de MCTS____________________________" << std::endl;
+    
     //     execution du MCTS
         TreeSearch mcts;    
 
+        std::cout <<"____________________________Execution de SHOT____________________________" << std::endl;
     // execution du SHOT
-//    SHOT shot;
+    SHOT shot;
 
     //    arbreEnDur();
     return 0;
